@@ -11,6 +11,7 @@ cryptography==41.0.1
 cssselect2==0.7.0
 Django==4.2.1
 django-crispy-forms==2.0
+djangorestframework==3.14.0
 html5lib==1.1
 idna==3.4
 lxml==4.9.2
@@ -25,6 +26,7 @@ pyhanko-certvalidator==0.22.0
 pypdf==3.9.0
 pypng==0.20220715.0
 python-bidi==0.4.2
+pytz==2023.3
 PyYAML==6.0
 qrcode==7.4.2
 reportlab==3.6.13
