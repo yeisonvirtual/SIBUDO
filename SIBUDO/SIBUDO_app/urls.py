@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from SIBUDO_app import views
+from . import views
 
 urlpatterns = [
     path('', views.index, name="Index"),
