@@ -1,0 +1,102 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% block title %} <title> Gestionar usuarios </title> {% endblock %}
+
+{% block content %}
+    
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Gestionar usuarios</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">Gestion usuarios</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Usuarios</h5>
+
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Cedula</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Rol</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Opciones</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                <tr>
+                  <th scope="row">1</th>
+                  <td>1000000</td>
+                  <td>Yeison</td>
+                  <td>Rojas</td>
+                  <td>YesionR</td>
+                  <td>Bibliotecario</td>
+                  <td>Activo</td>
+                  <td>
+                    <a href="{% url 'Editar usuario' %}" class="btn btn-primary">Editar</a>
+                    <a href="#" class="btn btn-secondary">Borrar</a>
+                  </td>
+                </tr>
+
+                <tr>
+                    <th scope="row">2</th>
+                    <td>2000000</td>
+                    <td>Luis</td>
+                    <td>Marquez</td>
+                    <td>LuisIng</td>
+                    <td>Estudiante</td>
+                    <td>Activo</td>
+                    <td>
+                      <a href="#" class="btn btn-primary">Editar</a>
+                      <a href="#" class="btn btn-secondary">Borrar</a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>3000000</td>
+                    <td>Eulises</td>
+                    <td>Brazon</td>
+                    <td>Eulises_99</td>
+                    <td>Estudiante</td>
+                    <td>Inactivo</td>
+                    <td>
+                      <a href="#" class="btn btn-primary">Editar</a>
+                      <a href="#" class="btn btn-secondary">Borrar</a>
+                    </td>
+                  </tr>
+
+              </tbody>
+              
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}
