@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SIBUDO_app',
     'gestion_recursos',
+    'gestion_usuarios',
 ]
 
 MIDDLEWARE = [
