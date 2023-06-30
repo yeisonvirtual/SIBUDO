@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'SIBUDO_app',
     'gestion_recursos',
+    'gestion_usuarios',
     'authentication',
 ]
 
