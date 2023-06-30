@@ -50,7 +50,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="#" class="logo d-flex align-items-center">
+      <a href="{% url 'Index' %}" class="logo d-flex align-items-center">
         <img src="{% static 'SIBUDO_app/assets/img/logo.png' %}" alt="">
         <span class="d-none d-lg-block">SIBUDO</span>
       </a>
@@ -61,6 +61,8 @@
       <ul class="d-flex align-items-center">
 
         <li class="nav-item dropdown pe-3">
+          
+          {% if user.is_authenticated %}
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-person"></i>
@@ -70,7 +72,7 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6>{{ nombre }}</h6>
-              <span>Bibliotecario</span>
+              {% comment %} <span>Bibliotecario</span> {% endcomment %}
             </li>
             <li>
               <hr class="dropdown-divider">
@@ -101,13 +103,21 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Cerrar sesion</span>
               </a>
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
+
+          {% else %}
+          
+          <a href="{% url 'sing_in' %}" type="button" class="btn btn-primary">Iniciar Sesion</a>
+          <a href="{% url 'authentication' %}" type="button" class="btn btn-primary">Registrarse</a> 
+          {% endif %}
+
+          
 
         </li><!-- End Profile Nav -->
 
