@@ -21,4 +21,5 @@ from . import views
 
 urlpatterns = [
     path('', views.gestion_usuarios, name="Gestion usuarios"),
+    path('editar_usuario/', views.editar_usuario, name="Editar usuario"),
 ]
