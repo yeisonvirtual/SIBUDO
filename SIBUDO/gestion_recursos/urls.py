@@ -21,5 +21,6 @@ from gestion_recursos import views
 
 urlpatterns = [
     path('libros/', views.gestion_libros, name="Gestion libros"),
-    path('tesis/', views.gestion_tesis, name="Gestion tesis"),
+    path('libros/agregar', views.gestion_libros, name="Agregar libro"),
+    path('trabajos/', views.gestion_trabajos, name="Gestion trabajos"),
 ]

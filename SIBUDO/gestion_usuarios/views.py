@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import Formulario_usuario
+#from ..gestion_recursos.forms import Formulario_usuario
 
 # from django.core.mail import EmailMessage
 # Create your views here.
@@ -10,12 +10,12 @@ def gestion_usuarios(request):
 
 def editar_usuario(request):
 
-    formulario_usuario = Formulario_usuario()
+    #formulario_usuario = Formulario_usuario()
 
     #si se envia un formulario
     if request.method == "POST":
 
-        formulario_usuario = Formulario_usuario(data=request.POST)
+        #formulario_usuario = Formulario_usuario(data=request.POST)
 
         if formulario_usuario.is_valid():
             #recupero los datos
