@@ -122,7 +122,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{% url 'Index' %}">
+        <a class="nav-link {% if request.path != '/' %} collapsed {% endif %}" href="{% url 'Index' %}">
           <i class="bi bi-grid"></i>
           <span> Inicio </span>
         </a>
@@ -130,7 +130,7 @@
 
       <!-- Gestion -->
       <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link {% if request.path|slice:':18' != '/gestion_recursos/' %} collapsed {% endif %}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Gestion recursos</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -148,7 +148,7 @@
       </li><!-- End Gestion recursos Nav -->
 
       <li class="nav-item">
-        <a class="nav-link " href="{% url 'Gestion usuarios' %}">
+        <a class="nav-link {% if request.path != '/gestion_usuarios/' %} collapsed {% endif %}" href="{% url 'Gestion usuarios' %}">
           <i class="bi bi-person"></i>
           <span>Gestion usuarios</span>
         </a>

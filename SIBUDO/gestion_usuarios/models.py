@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Rol(models.Model):
+class rol(models.Model):
     tipo = models.CharField(max_length=50)
 
     class Meta:
@@ -13,11 +13,11 @@ class Rol(models.Model):
     def __str__(self):
         return self.tipo
 
-class Persona(models.Model):
+class persona(models.Model):
     cedula = models.IntegerField()
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
-    rol = models.OneToOneField(Rol, on_delete=models.CASCADE)
+    rol = models.OneToOneField(rol, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     estado = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)

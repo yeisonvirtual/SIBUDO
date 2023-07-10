@@ -1,13 +1,11 @@
 from django.contrib import admin
 #se importan los modelos del mismo directorio
-from .models import Persona, Rol
+from .models import persona, rol
 
 # Register your models here.
 
-# Register your models here.
-
-class PersonaAdmin(admin.ModelAdmin):
+class persona_admin(admin.ModelAdmin):
     readonly_fields = ('created','updated')
 
-admin.site.register(Persona, PersonaAdmin)
-admin.site.register(Rol)
+admin.site.register(persona, persona_admin)
+admin.site.register(rol)
