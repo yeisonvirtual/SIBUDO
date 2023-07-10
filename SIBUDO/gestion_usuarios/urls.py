@@ -20,6 +20,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.gestion_usuarios, name="Gestion usuarios"),
-    path('editar_usuario/', views.editar_usuario, name="Editar usuario"),
+    path('', views.gestion_usuarios, name="Gestion_usuarios"),
+    path('editar_usuario/', views.editar_usuario, name="Editar_usuario")
 ]

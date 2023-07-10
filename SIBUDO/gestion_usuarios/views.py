@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-
 from .forms import Formulario_usuario
 
-from django.core.mail import EmailMessage
+# from django.core.mail import EmailMessage
 # Create your views here.
 
 def gestion_usuarios(request):
