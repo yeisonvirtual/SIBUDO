@@ -18,7 +18,7 @@ def agregar_libro(request):
     #si se envia un formulario
     if request.method == "POST":
 
-        formulario_libro = formulario_libro(data=request.POST)
+        form = formulario_libro(data=request.POST)
 
         if form.is_valid():
             #recupero los datos
