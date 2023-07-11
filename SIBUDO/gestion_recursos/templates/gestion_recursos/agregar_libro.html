@@ -2,14 +2,16 @@
 
 {% load static %}
 
-{% block title %} <title> Gestionar libros </title> {% endblock %}
+{% load bootstrap %}
+
+{% block title %} <title> Agregar libro </title> {% endblock %}
 
 {% block content %}
     
 <main id="main" class="main">
 
-    <div class="pagetitle">
-        <h1>Gestionar libros</h1>
+  <div class="pagetitle">
+    <h1>Gestionar libros</h1>
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item">Gestion recursos</li>
@@ -21,17 +23,32 @@
 
   <section class="section">
     <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-4 offset-3">
 
         <div class="card">
           <div class="card-body">
+            
             <h5 class="card-title">Agregar Libro</h5>
+            
+            {% if form.errors %}
 
-            AQUI VA EL FORMULARIO
+                <p>Por favor revisa este campo</p>
+
+            {% endif %}
+
+            <form method="POST">
+              
+              {% csrf_token %}
+              
+              {{ form|bootstrap }}
+              
+              <button type="submit" class="btn btn-primary" style="margin: 20px;">Agregar</button>
+                    
+            </form>
 
           </div>
         </div>
-
+        
       </div>
     </div>
   </section>
