@@ -20,5 +20,5 @@ from django.urls import path
 from sanciones_estudiante import views
 
 urlpatterns = [
-    path('', views.ver_sanciones, name="Ver_Sanciones"),
+    path('', views.ver_sanciones_estudiante, name="Sanciones_Estudiante"),
 ]
