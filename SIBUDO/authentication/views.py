@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 
-
 #from django.http import HttpResponse
 
 class register_user(View):
@@ -20,7 +19,7 @@ class register_user(View):
             return redirect('/')
         else:
             for msg in form.error_messages:
-                 messages.error(request, form.error_messages[msg])
+                messages.error(request, form.error_messages[msg])
             return render(request, "authentication/register.html",{"form":form})
         
 def sign_off(request):

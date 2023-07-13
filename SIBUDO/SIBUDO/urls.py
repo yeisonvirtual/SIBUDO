@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('SIBUDO_app.urls')),
     path('gestion/', include('gestion_recursos.urls')),
     path('authentication/', include('authentication.urls')),
+    path('perfil/', include('user_profile.urls')),
 ]

@@ -66,7 +66,7 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-person"></i>
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{ nombre }}</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.username }}</span>
           </a><!-- End Profile Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -79,7 +79,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profile' user_id=request.user.id active_tab='overview' %}">
                 <i class="bi bi-person"></i>
                 <span>Mi perfil</span>
               </a>
@@ -89,7 +89,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profile' user_id=request.user.id active_tab='edit_profile' %}">
                 <i class="bi bi-gear"></i>
                 <span>Configurar cuenta</span>
               </a>
@@ -110,6 +110,7 @@
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
+          
 
           {% else %}
           
@@ -126,6 +127,11 @@
 
   </header><!-- End Header -->
 
+  {% comment %} {% if request.user.is_authenticated %}
+    
+      
+  {% endif %} {% endcomment %}
+  
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
@@ -156,6 +162,16 @@
           </li>
         </ul>
       </li><!-- End Gestion -->
+      
+      {% comment %} {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'user_profile' user_id=request.user.id active_tab='overview' %}">
+            <i class="bi bi-person"></i>
+            <span>Profile</span>
+          </a>
+        </li><!-- End Profile Page Nav -->
+      {% endif %} {% endcomment %}
+
 
     </aside><!-- End Sidebar-->
     

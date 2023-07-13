@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'SIBUDO_app',
     'gestion_recursos',
     'authentication',
+    'user_profile',
 ]
 
 MIDDLEWARE = [

@@ -31,12 +31,19 @@
                 </div>
     
                 {% if field.errors %}
-                  <div class="text-danger">
-                    {% for error in field.errors %}
-                      <span>{{ error }}</span>
-                    {% endfor %}
+                  <div class="row justify-content-center align-items-center">
+                    <div class="text-danger text-center"> <!-- Agregamos la clase "text-center" -->
+                      {% for error in field.errors %}
+                        <span>{{ error }}<br></span>
+                      {% endfor %}
+                    </div>
                   </div>
                 {% endif %}
+                {% comment %} vacia el buffer de mensajes que no son necesarios mostrar,
+                para que no se muestrenluego en login{% endcomment %}
+                {% for message in messages %}
+                {% endfor %}
+
               </div>
             {% endfor %}
             
@@ -48,45 +55,6 @@
       </div>
     </div>
   </section>
-  
-  
-  
-  
-  
-    
-    {% comment %} <section class="section">
-        <div class="row">
-          <div class="col-6 offset-3">
-  
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Resgistrar Usuario</h5>
-                <p>Bienvenido al sisteme SIBUDO te invitamos a registracte para poder acceder a sus distintas funcionalidades</p>
-                <br>
-                {% if form.errors %}
-                  <p>Por favor revisa este campo</p>
-                {% endif %}
-                <form method="POST">
-                  {% csrf_token %}
-                  {% for field in form %}
-
-                    <div class="form-group">
-                      <div class="row justify-content-center align-items-center">
-                        <div class="col-12 text-center">
-                          <label class="form-label" style="width: 150px; margin-button: 10px;">
-                            {{ field.label }}
-                          </label>
-                            {{ field }}
-                        </div>
-                    </div>
-                  {% endfor %}
-                  <button type="submit" class="form-control">Enviar</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> {% endcomment %}
 
 </main>
 
