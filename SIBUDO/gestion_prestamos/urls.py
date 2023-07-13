@@ -20,5 +20,7 @@ from django.urls import path
 from gestion_prestamos import views
 
 urlpatterns = [
-    path('', views.gestion_prestamos, name="Gestion_Prestamos"),
+    path('', views.prestamos, name="Prestamos"),
+    path('gestion_prestamos/', views.gestion_prestamos, name="Gestion_Prestamos"),
+    path('gestion_sanciones/', views.gestion_sanciones, name="Gestion_Sanciones"),
 ]
