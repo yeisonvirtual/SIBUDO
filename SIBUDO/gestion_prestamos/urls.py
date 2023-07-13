@@ -1,5 +1,5 @@
 """
-URL configuration for SIBUDO project.
+URL configuration for proyecto_django project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
@@ -15,14 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+
+from gestion_prestamos import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('SIBUDO_app.urls')),
-    path('gestion/', include('gestion_recursos.urls')),#home/index
-    path('authentication/', include('authentication.urls')),
-    path('gestion_recursos/', include('gestion_recursos.urls')),
-    path('gestion_usuarios/', include('gestion_usuarios.urls')),
-    path('gestion_prestamos/', include('gestion_prestamos.urls')),
+    path('', views.gestion_prestamos, name="Gestion_Prestamos"),
 ]

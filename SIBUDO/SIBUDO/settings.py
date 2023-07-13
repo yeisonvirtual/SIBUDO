@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'gestion_recursos',
     'gestion_usuarios',
     'authentication',
+    'gestion_prestamos',
 ]
 
 MIDDLEWARE = [
