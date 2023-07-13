@@ -3,10 +3,61 @@
 {% load static %}
 
 {% block title %}
-    <title>Gestion de prestamos</title>
+    <title>Gestion de Prestamos</title>
 {% endblock %}
 
 {% block content %}
     <!-- TEMPLATE HERE -->
-    <h1>HELLO</h1>
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Gestion Prestamos</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'Prestamos' %}">Prestamos</a></li>
+                    <li class="breadcrumb-item active"><a href="{% url 'Gestion_Prestamos' %}">Gestionar Prestamos</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'Gestion_Sanciones' %}">Gestionar Sanciones</a></li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+
+        <section class="section contact">
+            <br><br>
+            <div class="row gy-4">
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <a href="{% url 'Generar_Prestamo' %}">
+                                <div class="info-box card text-center">
+                                    <i class="ri-file-upload-line"></i>
+                                    <h3>Generar Prestamo</h3>
+                                    <p>Podras generar un nuevo préstamo a un estudiante.</p>
+                                </div>
+                            </a>
+                        </div>
+    
+                        <div class="col-lg-4">
+                            <a href="{% url 'Recibir_Prestamo' %}">
+                                <div class="info-box card text-center">
+                                    <i class="ri-file-download-line"></i>
+                                    <h3>Recibir Prestamo</h3>
+                                    <p>Podras recibir préstamos y de ser necesario sancionar al estudiante.</p>
+                                </div>
+                            </a>
+                        </div>
+    
+                        <div class="col-lg-4">
+                            <a href="{% url 'Buscar_Prestamo' %}">
+                                <div class="info-box card text-center">
+                                    <i class="ri-user-search-line"></i>
+                                    <h3>Buscar Prestamo</h3>
+                                    <p>Podrás buscar entre préstamos activos y no devueltos, pudiendo sancionar.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+        </section>
+    </main>
 {% endblock %}
