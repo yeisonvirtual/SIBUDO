@@ -1,0 +1,86 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% block title %} <title> Home </title> {% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+
+    {% comment %} {% if user.is_authenticated %} {% endcomment %}
+    
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              {% comment %} <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> {% endcomment %}
+              <img src="https://trespies.com/wp-content/uploads/2013/07/bebe-picaron.jpg" alt="Profile" class="rounded-circle"> 
+              
+              <h2>{{ user.username }}</h2>
+              <h3>Web Designer</h3>
+              <div class="social-links mt-2">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link {% if active_tab == 'overview' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link {% if active_tab == 'edit_profile' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link {% if active_tab == 'change_password' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                </li> 
+
+              </ul>
+
+              <div class="tab-content pt-2">
+                <div class="tab-pane fade  {% if active_tab == 'overview' %}show active{% endif %}" id="profile-overview">
+                  {% include "user_profile/overview.html" %}
+                </div>
+                <div class="tab-pane fade  {% if active_tab == 'edit_profile' %}show active{% endif %}" id="profile-edit">
+                  {% include "user_profile/edit_profile.html" %}
+                </div>
+                <div class="tab-pane fade {% if active_tab == 'change_password' %}show active{% endif %}" id="profile-change-password">
+                  {% include "user_profile/change_password.html" %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% comment %} {% endif %} {% endcomment %}
+  </main><!-- End #main -->
+
+{% endblock %}
