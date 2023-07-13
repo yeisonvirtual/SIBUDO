@@ -1,5 +1,5 @@
 from django.shortcuts import render
 
 # Create your views here.
-def ver_sanciones(request):
-    return render(request, 'sanciones_estudiante/ver_sanciones.html', {'param':'Este es el param'})
+def ver_sanciones_estudiante(request):
+    return render(request, 'sanciones_estudiante/ver_sanciones_estudiante.html', {})

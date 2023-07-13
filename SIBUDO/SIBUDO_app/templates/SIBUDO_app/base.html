@@ -164,6 +164,13 @@
         </a>
       </li><!-- End Gestion usuarios Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
+          <i class="bi bi-stoplights"></i>
+          <span>Sanciones</span>
+        </a>
+      </li><!-- sanciones -->
+
     </aside><!-- End Sidebar-->
     
     {% block content %}
