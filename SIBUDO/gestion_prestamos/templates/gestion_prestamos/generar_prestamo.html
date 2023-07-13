@@ -1,0 +1,23 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title>Generar Prestamo</title>
+{% endblock %}
+
+{% block content %}
+    <!-- TEMPLATE HERE -->
+    <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Generar Prestamo</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'Prestamos' %}">Prestamos</a></li>
+                    <li class="breadcrumb-item active"><a href="{% url 'Gestion_Prestamos' %}">Gestionar Prestamos</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'Gestion_Sanciones' %}">Gestionar Sanciones</a></li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+    </main>
+{% endblock %}
