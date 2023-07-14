@@ -10,6 +10,9 @@ def gestion_prestamos(request):
 def generar_prestamo(request):
     return render(request, "gestion_prestamos/generar_prestamo.html", {})
 
+def guardar_prestamo(request):
+    return render(request, "gestion_prestamos/guardar_prestamo.html", {})
+
 def recibir_prestamo(request):
     return render(request, "gestion_prestamos/recibir_prestamo.html", {})
 

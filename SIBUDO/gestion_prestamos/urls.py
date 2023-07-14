@@ -23,6 +23,7 @@ urlpatterns = [
     path('', views.prestamos, name="Prestamos"),
     path('gestion_prestamos/', views.gestion_prestamos, name="Gestion_Prestamos"),
     path('generar_prestamo/', views.generar_prestamo, name="Generar_Prestamo"),
+    path('guardar_prestamo/', views.guardar_prestamo, name="Guardar_Prestamo"),
     path('recibir_prestamo/', views.recibir_prestamo, name="Recibir_Prestamo"),
     path('buscar_prestamo/', views.buscar_prestamo, name="Buscar_Prestamo"),
     path('gestion_sanciones/', views.gestion_sanciones, name="Gestion_Sanciones"),
