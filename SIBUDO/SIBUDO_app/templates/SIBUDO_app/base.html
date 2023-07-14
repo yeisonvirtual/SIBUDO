@@ -164,6 +164,31 @@
         </a>
       </li><!-- End Gestion usuarios Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
+          <i class="bi bi-stoplights"></i>
+          <span>Sanciones</span>
+        </a>
+      </li><!-- sanciones -->
+
+      <li class="nav-item">
+        <a class="nav-link {% if request.path|slice:':18' != '/gestion_prestamos/' %} collapsed {% endif %}" data-bs-target="#prestamos-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-arrow-up"></i><span>Prestamos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="prestamos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'Gestion_Prestamos' %}">
+              <i class="bi bi-circle"></i><span>Gestion de prestamos</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Gestion_Sanciones' %}">
+              <i class="bi bi-circle"></i><span>Gestion de Sanciones</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Gestion prestamos Nav -->
+
     </aside><!-- End Sidebar-->
     
     {% block content %}
