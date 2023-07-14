@@ -34,8 +34,10 @@
 
             </div>
             
-            <form class="row g-2" action="">
-
+            <form class="row g-2" method="POST" action="">
+              
+              {% csrf_token %}
+              
               <div class="col-md-8">
 
                 <button type="submit" class="btn btn-primary">Buscar</button>
@@ -50,25 +52,26 @@
 
             </form>
 
-            <!-- Table with stripped rows -->
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
+            <!-- si hay libros -->
+            {% if libros %}
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
                   <th scope="col">Nombre</th>
-                  <th scope="col">Autor(es)</th>
-                  <th scope="col">Edicion</th>
-                  <th scope="col">Año</th>
-                  <th scope="col">ISBN</th>
-                  <th scope="col">Cantidad</th>
-                  <th scope="col">Opciones</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                <!-- si hay libros -->
-                {% if libros %}
-
+                    <th scope="col">Autor(es)</th>
+                    <th scope="col">Edicion</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <!-- recorre todos los libros -->
                   {% for libro in libros %}
 
                     <tr>
@@ -91,18 +94,20 @@
                       {% endfor %}
 
                       <td>
-                        <a href="#" class="btn btn-primary">Editar</a>
-                        <a href="#" class="btn btn-secondary">Borrar</a>
+                        <!-- url: libros/editar/<int:libro_id>/ -->
+                        <a href="{% url 'Editar libro' libro.id %}" class="btn btn-primary"> <i class="bi bi-pencil"></i></a>
+                        <!-- url: libros/eliminar/<int:libro_id>/ -->
+                        <a href="{% url 'Eliminar libro' libro.id %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
                       </td>
-                  </tr>
+                    </tr>
 
-                  {% endfor %}
+                  {% endfor %}              
 
-                {% endif %}
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
 
-              </tbody>
-            </table>
-            <!-- End Table with stripped rows -->
+            {% endif %}
 
           </div>
         </div>
