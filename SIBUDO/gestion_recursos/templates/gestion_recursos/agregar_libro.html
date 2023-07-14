@@ -29,10 +29,18 @@
           <div class="card-body">
             
             <h5 class="card-title">Agregar Libro</h5>
+
+            <!--si el registro se guardo-->
+            {% if valido %}
+
+              <div class="alert alert-success">El libro se guardó correctamente</div>
+
+            {% endif %}
             
+            <!--si es formulario tiene errores-->
             {% if form.errors %}
 
-                <p>Por favor revisa este campo</p>
+              <p>Por favor revisa este campo</p>
 
             {% endif %}
 
@@ -53,6 +61,6 @@
     </div>
   </section>
 
-</main><!-- End #main -->
+</main><!-- End main -->
 
 {% endblock %}
