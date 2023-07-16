@@ -40,12 +40,14 @@
                         <div class="col-12">
                             {% if mi_prestamo.tipo_recurso == 1 %}
                                 <label for="inputNanme4" class="form-label">Nombre del Libro</label>
+                                <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.nombre}}" disabled>
                             {% elif mi_prestamo.tipo_recurso == 2 %}
                                 <label for="inputNanme4" class="form-label">Titulo del Trabajo</label>
+                                <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.titulo}}" disabled>
                             {% else %}
                                 <label for="inputNanme4" class="form-label">Nombre Recurso</label>
+                                <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.nombre}}" disabled>
                             {% endif %}
-                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.nombre}}" disabled>
                         </div>
 
                         <div class="col-12">
