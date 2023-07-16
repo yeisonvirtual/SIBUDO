@@ -8,7 +8,7 @@ class Prestamo(models.Model):
     id_recurso = models.IntegerField()
     fecha_prestamo = models.DateField()
     fecha_devolucion = models.DateField()
-    estado_prestamo = models.SmallIntegerField()
+    estado_prestamo = models.IntegerField()
 
     # Atributos de creacion y modificacion
     created = models.DateTimeField(auto_now_add=True)

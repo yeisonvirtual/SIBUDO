@@ -78,7 +78,7 @@ def recibir_prestamo(request,id_prestamo):
         # Guardando los cambios realizados en todos los modelos
         disposicion.save()
         mi_persona.save()
-        mi_prestamo.save()
+        #mi_prestamo.save()
         
         # Si toda la operacion resulta exitosa se retorna esta vista
         return render(request, "gestion_prestamos/prestamo_recibido.html", {'mi_prestamo':mi_prestamo, 'mi_persona':mi_persona, 'mi_recurso':mi_recurso})
