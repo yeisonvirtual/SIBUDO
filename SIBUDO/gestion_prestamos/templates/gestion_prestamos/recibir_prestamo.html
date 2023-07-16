@@ -24,9 +24,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Resumen del prestamo</h5>
-
                     <!-- Vertical Form -->
-                    <form class="row g-3">
+                    <form action="" class="row g-3" method="POST">
+                        {% csrf_token %}
                         <div class="col-12">
                             <label for="inputNanme4" class="form-label">C.I</label>
                             <input type="text" class="form-control" id="inputNanme4" value="{{mi_persona.cedula}}" disabled>
@@ -61,9 +61,10 @@
                         </div>
 
                         <div class="text-center">
-                            <a href="http://127.0.0.1:8000/prestamos/prestamo_recibido/{{mi_prestamo.id}}/">
-                                <button type="button" class="btn btn-primary">Marcar como recibido</button>
-                            </a>
+                            <!-- <a href="{% url 'Prestamo_Recibido' mi_prestamo.id %}"> -->
+                                <!-- {% url 'Prestamo_Recibido' mi_prestamo.id %} -->
+                                <button type="submit" class="btn btn-primary" value="">Marcar como recibido</butto()n>
+                            <!-- </a> -->
                         </div>
                     </form><!-- Vertical Form -->
                 </div>
