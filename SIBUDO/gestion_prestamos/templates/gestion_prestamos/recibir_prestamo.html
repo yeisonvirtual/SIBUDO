@@ -19,5 +19,54 @@
                 </ol>
             </nav>
         </div><!-- End Page Title -->
+
+        <div class="col-lg-6" style="margin: 0 auto;">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resumen del prestamo</h5>
+
+                    <!-- Vertical Form -->
+                    <form class="row g-3">
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">C.I</label>
+                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_persona.cedula}}" disabled>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Estudiante</label>
+                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_persona.nombre}} {{mi_persona.apellido}}" disabled>
+                        </div>
+
+                        <div class="col-12">
+                            {% if mi_prestamo.tipo_recurso == 1 %}
+                                <label for="inputNanme4" class="form-label">Nombre del Libro</label>
+                            {% elif mi_prestamo.tipo_recurso == 2 %}
+                                <label for="inputNanme4" class="form-label">Titulo del Trabajo</label>
+                            {% else %}
+                                <label for="inputNanme4" class="form-label">Nombre Recurso</label>
+                            {% endif %}
+                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.nombre}}" disabled>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Fecha Prestamo</label>
+                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_prestamo.fecha_prestamo}}" disabled>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="inputNanme4" class="form-label">Fecha Devolucion</label>
+                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_prestamo.fecha_devolucion}}" disabled>
+                        </div>
+
+                        <div class="text-center">
+                            <a href="http://127.0.0.1:8000/prestamos/prestamo_recibido/{{mi_prestamo.id}}/">
+                                <button type="button" class="btn btn-primary">Marcar como recibido</button>
+                            </a>
+                        </div>
+                    </form><!-- Vertical Form -->
+                </div>
+            </div>
+        </div>
+
     </main>
 {% endblock %}

@@ -18,13 +18,14 @@ class Prestamo(models.Model):
         verbose_name = 'Prestamo'
         verbose_name_plural = 'Prestamos'
     
-    # def __str__():
-    #     return id
+    def __str__():
+        return id
 
-class Disponibile_a_Prestamos(models.Model):
+class Disponible_a_Prestamo(models.Model):
     # Atributos de modelo
-    id_libro = models.IntegerField()
+    id_recurso = models.IntegerField()
     n_disponibles = models.IntegerField()
+    tipo_recurso = models.IntegerField()
     tipo_prestamo = models.BooleanField()
 
     # Atributos de creacion y modificacion
