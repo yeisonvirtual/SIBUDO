@@ -18,14 +18,14 @@ class Prestamo(models.Model):
         verbose_name = 'Prestamo'
         verbose_name_plural = 'Prestamos'
     
-    def __str__():
-        return id
+    def __str__(self):
+        return self.id
 
-class Disponible_a_Prestamo(models.Model):
+class Recurso_Disponible(models.Model):
     # Atributos de modelo
     id_recurso = models.IntegerField()
-    n_disponibles = models.IntegerField()
     tipo_recurso = models.IntegerField()
+    n_disponibles = models.PositiveBigIntegerField()
     tipo_prestamo = models.BooleanField()
 
     # Atributos de creacion y modificacion
@@ -33,8 +33,8 @@ class Disponible_a_Prestamo(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     class Meta():
-        verbose_name = 'Disponible_a_Prestamo'
-        verbose_name_plural = 'Disponibles_a_Prestamos'
+        verbose_name = 'Recurso_Disponible'
+        verbose_name_plural = 'Recursos_Disponibles'
 
-    def __str__():
-        return id
+    def __str__(self):
+        return self.n_disponibles

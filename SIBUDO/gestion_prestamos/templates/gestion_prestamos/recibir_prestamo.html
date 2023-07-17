@@ -28,43 +28,40 @@
                     <form action="" class="row g-3" method="POST">
                         {% csrf_token %}
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">C.I</label>
-                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_persona.cedula}}" disabled>
+                            <label for="ci" class="form-label">C.I</label>
+                            <input type="number" class="form-control" id="ci" value="{{mi_persona.cedula}}" disabled>
                         </div>
 
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Estudiante</label>
-                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_persona.nombre}} {{mi_persona.apellido}}" disabled>
+                            <label for="nombre-est" class="form-label">Estudiante</label>
+                            <input type="text" class="form-control" id="nombre-est" value="{{mi_persona.nombre}} {{mi_persona.apellido}}" disabled>
                         </div>
 
                         <div class="col-12">
                             {% if mi_prestamo.tipo_recurso == 1 %}
-                                <label for="inputNanme4" class="form-label">Nombre del Libro</label>
-                                <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.nombre}}" disabled>
+                                <label for="nombre-rec" class="form-label">Nombre del Libro</label>
+                                <input type="text" class="form-control" id="nombre-rec" value="{{mi_recurso.nombre}}" disabled>
                             {% elif mi_prestamo.tipo_recurso == 2 %}
-                                <label for="inputNanme4" class="form-label">Titulo del Trabajo</label>
-                                <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.titulo}}" disabled>
+                                <label for="nombre-rec" class="form-label">Titulo del Trabajo</label>
+                                <input type="text" class="form-control" id="nombre-rec" value="{{mi_recurso.titulo}}" disabled>
                             {% else %}
-                                <label for="inputNanme4" class="form-label">Nombre Recurso</label>
-                                <input type="text" class="form-control" id="inputNanme4" value="{{mi_recurso.nombre}}" disabled>
+                                <label for="nombre-rec" class="form-label">Nombre Recurso</label>
+                                <input type="text" class="form-control" id="nombre-rec" value="{{mi_recurso.nombre}}" disabled>
                             {% endif %}
                         </div>
 
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Fecha Prestamo</label>
-                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_prestamo.fecha_prestamo}}" disabled>
+                            <label for="fecha-prest" class="form-label">Fecha Prestamo</label>
+                            <input type="text" class="form-control" id="fecha-prest" value="{{mi_prestamo.fecha_prestamo}}" disabled>
                         </div>
 
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Fecha Devolucion</label>
-                            <input type="text" class="form-control" id="inputNanme4" value="{{mi_prestamo.fecha_devolucion}}" disabled>
+                            <label for="fecha-dev" class="form-label">Fecha Devolucion</label>
+                            <input type="text" class="form-control" id="fecha-dev" value="{{mi_prestamo.fecha_devolucion}}" disabled>
                         </div>
 
                         <div class="text-center">
-                            <!-- <a href="{% url 'Prestamo_Recibido' mi_prestamo.id %}"> -->
-                                <!-- {% url 'Prestamo_Recibido' mi_prestamo.id %} -->
-                                <button type="submit" class="btn btn-primary" value="">Marcar como recibido</butto()n>
-                            <!-- </a> -->
+                            <button type="submit" class="btn btn-primary">Marcar como recibido</button>
                         </div>
                     </form><!-- Vertical Form -->
                 </div>
