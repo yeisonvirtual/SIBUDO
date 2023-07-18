@@ -14,16 +14,26 @@
         <div class="card">
             <div class="card-body">
               <h5 class="card-title" style="text-align: center;">Resgistrar Usuario</h5>
-              <p style="text-align: center;">Favor de ingresar los datos</p>
+              <p style="text-align: center;">Favor de ingresar los datos del nuevo usuario</p>
               <br>
           <form method="post">
             {% csrf_token %}
-    
+            <div class="row justify-content-center align-items-center m-3">
+              <div class="col-12 text-center ">
+                <label for="id_role" class="form-label ">Registrar Como:</label>
+                <select name="role" id="id_role">
+                  {% for rol in rol_aviable %}
+                  <option value="{{ rol }}">{{ rol }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>   
+          
             {% for field in form.visible_fields %}
               <div class="form-group">
-                <div class="row justify-content-center align-items-center">
+                <div class="row justify-content-center align-items-center m-3">
                   <div class="col-12 text-center">
-                    <label class="form-label" style="width: 150px; margin-bottom: 10px;">
+                    <label class="form-label" style="width: 150px;">
                       {{ field.label }}
                     </label>
                     {{ field }}
@@ -39,16 +49,23 @@
                     </div>
                   </div>
                 {% endif %}
-                {% comment %} vacia el buffer de mensajes que no son necesarios mostrar,
-                para que no se muestrenluego en login{% endcomment %}
-                {% for message in messages %}
-                {% endfor %}
-
+              
               </div>
             {% endfor %}
             
+            {% if messages %}
+              <div class="alert alert-success text-center" role="alert">
+                {% for message in messages %}
+                  {% if message.tags == 'success' %}
+                    {{ message }}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+                        
             <div style="text-align: center;">
-              <button type="submit" class="btn btn-primary" >Registrarse</button>
+              <button type="submit" class="btn btn-primary" >Registrar</button>
             </div>
           </form>
         </div>

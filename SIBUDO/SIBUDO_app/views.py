@@ -12,6 +12,9 @@ def index(request):
     user_name = request.user.username
     return render(request, "SIBUDO_app/index.html", {'nombre': user_name})
 
+def not_fount(request):
+    return render(request, "SIBUDO_app/not_fount.html")
+
 @api_view(['POST', 'GET'])
 def register_user(request):
     

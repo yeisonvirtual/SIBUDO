@@ -1,0 +1,46 @@
+{% load custom_tags %}
+
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'Index' %}">
+          <i class="bi bi-grid"></i>
+          <span> Inicio </span>
+        </a>
+      </li><!-- End Index Nav -->
+
+      
+      <!-- Gestion -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Gestion recursos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'Gestion libros' %}">
+              <i class="bi bi-circle"></i><span>Libros</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Gestion tesis' %}">
+              <i class="bi bi-circle"></i><span>Tesis</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Gestion -->
+      
+      {% if request.user|user_belongs_to_group:'Director' %}
+      {% comment %} {% if request.user.is_authenticated %} {% endcomment %}
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{% url 'authentication' %}">
+            <i class="bi bi-person"></i>
+            <span>Registrar usuario</span>
+          </a>
+        </li><!-- End Profile Page Nav -->
+      {% comment %} {% endif %} {% endcomment %}
+      {% endif %}
+    </aside><!-- End Sidebar-->
+

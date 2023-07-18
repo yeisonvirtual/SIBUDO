@@ -3,6 +3,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
+from SIBUDO_app.decorators import group_required
+
+
+
 
 @login_required
 # def profile_view(request):
@@ -10,6 +14,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 #     #user_role = request.user.userprofile.role
 #     return render(request, "user_profile/profile.html", {"name":user})#, 'role': user_role})
 
+@group_required(['Director','Invitados']) 
 def user_profile(request, user_id, active_tab=None):
     # Obtener el usuario por su ID
     user = get_object_or_404(User, id=user_id)

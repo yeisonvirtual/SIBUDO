@@ -22,4 +22,5 @@ from . import views
 urlpatterns = [
     path('', views.index, name="Index"),
     path('registrar_2/', views.register_user, name="register_form"),
+    path('error_404/', views.not_fount, name="not_fount"),
 ]
