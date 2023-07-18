@@ -66,13 +66,13 @@
 
               <div class="tab-content pt-2">
                 <div class="tab-pane fade  {% if active_tab == 'overview' %}show active{% endif %}" id="profile-overview">
-                  {% include "user_profile/overview.html" %}
+                  {% include "authentication/profile/overview.html" %}
                 </div>
                 <div class="tab-pane fade  {% if active_tab == 'edit_profile' %}show active{% endif %}" id="profile-edit">
-                  {% include "user_profile/edit_profile.html" %}
+                  {% include "authentication/profile/edit_profile.html" %}
                 </div>
                 <div class="tab-pane fade {% if active_tab == 'change_password' %}show active{% endif %}" id="profile-change-password">
-                  {% include "user_profile/change_password.html" %}
+                  {% include "authentication/profile/change_password.html" %}
                 </div>
               </div>
             </div>

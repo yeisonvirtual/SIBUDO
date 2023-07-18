@@ -20,7 +20,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('SIBUDO_app.urls')),
-    path('gestion/', include('gestion_recursos.urls')),
+
     path('authentication/', include('authentication.urls')),
-    path('perfil/', include('user_profile.urls')),
+    path('user_management/', include('user_management.urls')),
 ]

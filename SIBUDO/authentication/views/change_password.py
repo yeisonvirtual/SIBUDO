@@ -18,7 +18,7 @@ def change_password_api(request):
                 'active_tab': 'change_password',
                 'user_id': request.user.id,
             }
-            return render(request, 'user_profile/user_profile.html', context)  # Renderiza la plantilla de perfil del usuario
+            return render(request, 'authentication/profile/user_profile.html', context)  # Renderiza la plantilla de perfil del usuario
 
         else:
             for field, error_list in form.errors.items():
@@ -29,4 +29,4 @@ def change_password_api(request):
         'active_tab': 'change_password', # Lógica para determinar qué pestaña debe estar activa
         'user_id': request.user.id,
     }
-    return render(request, 'user_profile/user_profile.html', context)  # Renderiza la plantilla de perfil del usuario
+    return render(request, 'authentication/profile/user_profile.html', context)  # Renderiza la plantilla de perfil del usuario

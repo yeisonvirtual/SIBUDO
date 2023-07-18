@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
-
-class GestionRecursosConfig(AppConfig):
+class UserProfileConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'gestion_recursos'
+    name = 'user_management'
+
