@@ -3,6 +3,7 @@ from datetime import date, datetime
 from django.db.models import Q
 from .models import Prestamo
 from .models import Recurso_Disponible
+from .models import Sancion
 from gestion_usuarios.models import persona
 from gestion_recursos.models import libro
 from gestion_recursos.models import cantidad_libro
@@ -164,4 +165,29 @@ def generar_sancion(request):
     return render(request, "gestion_prestamos/generar_sancion.html", {})
 
 def visualizar_sanciones(request):
-    return render(request, "gestion_prestamos/visualizar_sanciones.html", {})
+
+    #listas que ayudan a mostrar datos en el front
+    list_estud = [None]
+    list_tipo_p = [None]
+
+    # Obteniendo las sanciones activas
+    sanciones = Sancion.objects.filter(Q(estado=1))
+
+    # Obteniendo los prestamos y estudiantes sancionados
+    for prestamo in sanciones:
+        prestamo_sancionado = Prestamo.objects.get(id=prestamo.id_prestamo)
+        estudiante_sancionado = persona.objects.get(id=prestamo_sancionado.id_est)
+
+        # Agregando el nombre de los estudiantes a la lista
+        nombre = '{} {}'.format(estudiante_sancionado.nombre, estudiante_sancionado.apellido)
+        list_estud.append(nombre)
+
+        # Agregando los tipos de prestamos a la lista
+        # Tipo de prestamos
+        disp_a_prest = Recurso_Disponible.objects.get(Q(tipo_recurso=prestamo_sancionado.tipo_recurso) & Q(id_recurso=prestamo_sancionado.id_recurso))
+        if disp_a_prest.tipo_prestamo == True:
+            list_tipo_p.append('Externo')
+        else:
+            list_tipo_p.append('Interno')
+    
+    return render(request, "gestion_prestamos/visualizar_sanciones.html", {'sanciones':sanciones, 'list_estud':list_estud, 'list_tipo_p':list_tipo_p})
