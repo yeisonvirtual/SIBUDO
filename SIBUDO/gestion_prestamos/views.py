@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
+from datetime import date, datetime
 from django.db.models import Q
 from .models import Prestamo
 from .models import Recurso_Disponible
@@ -74,8 +74,13 @@ def recibir_prestamo(request,id_prestamo):
         
         # Almacenando los datos si hasta el momento no ha habido algún inconveniente
         try:
+            mi_disponibilidad.updated = datetime.now()
             mi_disponibilidad.save()
+
+            mi_persona.updated = datetime.now()
             mi_persona.save()
+
+            mi_prestamo.updated = datetime.now()
             mi_prestamo.save()
         except:
             titulo = 'Error'
@@ -115,22 +120,22 @@ def editar_prestamo(request, id_prestamo):
     if request.method == 'POST':
         mi_date_form = DatePicker(request.POST)
         if mi_date_form.is_valid():
-            print(request.POST)
-        try:
-            new_date = request.POST.get('new_date')
-            mi_prestamo.fecha_devolucion = new_date
-            mi_prestamo.save()
-            titulo = 'Prestamo Modificado'
-            sub_titulo = 'Prestamo Modificado Exitosamente'
-            mensaje = 'En breves segundos se verá reflejado en el sistema'
-            icon = 1
-            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
-        except:
-            titulo = 'Error'
-            sub_titulo = 'Ha ocurrido un error al intentar modificar la fecha'
-            mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
-            icon = 2
-            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            try:
+                new_date = request.POST.get('new_date')
+                mi_prestamo.fecha_devolucion = new_date
+                mi_prestamo.updated = datetime.now()
+                mi_prestamo.save()
+                titulo = 'Prestamo Modificado'
+                sub_titulo = 'Prestamo Modificado Exitosamente'
+                mensaje = 'En breves segundos se verá reflejado en el sistema'
+                icon = 1
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar modificar la fecha'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
 
     return render(request, "gestion_prestamos/editar_prestamo.html", {'mi_date_form': mi_date_form, 'mi_prestamo':mi_prestamo, 'mi_persona':mi_persona, 'mi_recurso':mi_recurso, 'dev_date':dev_date})
 
