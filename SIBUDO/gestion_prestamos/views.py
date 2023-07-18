@@ -44,21 +44,33 @@ def recibir_prestamo(request,id_prestamo):
             if mi_disponibilidad.n_disponibles + 1 <= mi_cantidad.cantidad:
                 mi_disponibilidad.n_disponibles += 1
         except:
-            return redirect('/Error/1/')
+            titulo = 'Error'
+            sub_titulo = 'Ha ocurrido un error al intentar modificar la disponibilidad del recurso'
+            mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+            icon = 2
+            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
         
         # Cambiando el estado del estudiante de inactivo a activo
         try:
             if mi_persona.estado != 1:
                 mi_persona.estado = 1
         except:
-            return redirect('/Error/2/')
+            titulo = 'Error'
+            sub_titulo = 'Ha ocurrido un error al intentar modificar el estado del estudiante'
+            mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+            icon = 2
+            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
 
         # Cambiando el estado del prestamo a inactivo
         try:
             if mi_prestamo.estado_prestamo != 2:
                 mi_prestamo.estado_prestamo = 2
         except:
-            return redirect('/Error/3/')
+            titulo = 'Error'
+            sub_titulo = 'Ha ocurrido un error al intentar modificar el prestamo'
+            mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+            icon = 2
+            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
         
         # Almacenando los datos si hasta el momento no ha habido algún inconveniente
         try:
@@ -66,15 +78,27 @@ def recibir_prestamo(request,id_prestamo):
             mi_persona.save()
             mi_prestamo.save()
         except:
-            return redirect('/Error/4/')
+            titulo = 'Error'
+            sub_titulo = 'Ha ocurrido un error al intentar guardar los datos'
+            mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+            icon = 2
+            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
         
         # Si toda la operacion resulta exitosa se retorna esta vista
-        return render(request, "gestion_prestamos/prestamo_recibido.html", {})
+        titulo = 'Prestamo Recibido'
+        sub_titulo = 'Prestamo Recibido Exitosamente'
+        mensaje = 'En breves segundos se verá reflejado en el sistema'
+        icon = 1
+        return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
     
     return render(request, "gestion_prestamos/recibir_prestamo.html", {'mi_prestamo':mi_prestamo, 'mi_persona':mi_persona, 'mi_recurso':mi_recurso})
 
-def prestamo_recibido(request, id_prestamo):
-    return render(request, "gestion_prestamos/prestamo_recibido.html", {})
+def mensaje_resultado(request, id_prestamo):
+    titulo = ''
+    sub_titulo = ''
+    mensaje = ''
+    icon = 0
+    return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
 
 def editar_prestamo(request, id_prestamo):
     # Obteniendo los modelos que se van a utilizar
@@ -94,10 +118,19 @@ def editar_prestamo(request, id_prestamo):
             print(request.POST)
         try:
             new_date = request.POST.get('new_date')
-            print('Mi fecha recuperada del formulario es:')
-            print(new_date)
+            mi_prestamo.fecha_devolucion = new_date
+            mi_prestamo.save()
+            titulo = 'Prestamo Modificado'
+            sub_titulo = 'Prestamo Modificado Exitosamente'
+            mensaje = 'En breves segundos se verá reflejado en el sistema'
+            icon = 1
+            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
         except:
-            return redirect('/Error/')
+            titulo = 'Error'
+            sub_titulo = 'Ha ocurrido un error al intentar modificar la fecha'
+            mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+            icon = 2
+            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
 
     return render(request, "gestion_prestamos/editar_prestamo.html", {'mi_date_form': mi_date_form, 'mi_prestamo':mi_prestamo, 'mi_persona':mi_persona, 'mi_recurso':mi_recurso, 'dev_date':dev_date})
 

@@ -3,14 +3,14 @@
 {% load static %}
 
 {% block title %}
-    <title>Prestamo Recibido</title>
+    <title>{{titulo}}</title>
 {% endblock %}
 
 {% block content %}
     <!-- TEMPLATE HERE -->
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Prestamo Recibido</h1>
+            <h1>{{titulo}}</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'Prestamos' %}">Prestamos</a></li>
@@ -23,9 +23,13 @@
             <section class="section contact">
                 <div class="col-lg-10" style="margin: 15% auto;">
                     <div class="info-box card text-center">
-                        <i class="ri-checkbox-circle-line"></i>
-                        <h3>Prestamo recibido exitosamente</h3>
-                        <p>En breves segundos se verá reflejado en el sistema</p>
+                        {% if icon == 1 %}
+                            <i class="ri-checkbox-circle-line"></i>
+                        {% elif icon == 2 %}
+                            <i class="ri-close-circle-line"></i>
+                        {% endif %}
+                        <h3>{{sub_titulo}}</h3>
+                        <p>{{mensaje}}</p>
                     </div>
                 </div>
             </section>
