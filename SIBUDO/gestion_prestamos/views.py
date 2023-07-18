@@ -8,6 +8,7 @@ from gestion_recursos.models import libro
 from gestion_recursos.models import cantidad_libro
 from gestion_recursos.models import trabajo
 from gestion_recursos.models import cantidad_trabajo
+from .forms import DatePicker
 
 # Create your views here.
 def prestamos(request):
@@ -75,8 +76,30 @@ def recibir_prestamo(request,id_prestamo):
 def prestamo_recibido(request, id_prestamo):
     return render(request, "gestion_prestamos/prestamo_recibido.html", {})
 
-def editar_prestamo(request):
-    return render(request, "gestion_prestamos/editar_prestamo.html", {})
+def editar_prestamo(request, id_prestamo):
+    # Obteniendo los modelos que se van a utilizar
+    mi_prestamo = Prestamo.objects.get(id=id_prestamo)
+    mi_persona = persona.objects.get(id=mi_prestamo.id_est)
+
+    if mi_prestamo.tipo_recurso == 1:
+        mi_recurso = libro.objects.get(id=mi_prestamo.id_recurso)
+    if mi_prestamo.tipo_recurso == 2:
+        mi_recurso = trabajo.objects.get(id=mi_prestamo.id_recurso)
+
+    dev_date = str(mi_prestamo.fecha_devolucion)
+    mi_date_form = DatePicker(request.POST)
+    if request.method == 'POST':
+        mi_date_form = DatePicker(request.POST)
+        if mi_date_form.is_valid():
+            print(request.POST)
+        try:
+            new_date = request.POST.get('new_date')
+            print('Mi fecha recuperada del formulario es:')
+            print(new_date)
+        except:
+            return redirect('/Error/')
+
+    return render(request, "gestion_prestamos/editar_prestamo.html", {'mi_date_form': mi_date_form, 'mi_prestamo':mi_prestamo, 'mi_persona':mi_persona, 'mi_recurso':mi_recurso, 'dev_date':dev_date})
 
 def buscar_prestamo(request):
     prestamos_a_nd = Prestamo.objects.filter(Q(estado_prestamo=1) | Q(estado_prestamo=2) | Q(estado_prestamo=3))
