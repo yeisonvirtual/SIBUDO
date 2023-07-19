@@ -202,11 +202,75 @@ def sancionar(request, id_prestamo):
         # Crando datepicker para capturar datos del form
         penalty_date_form = Penalty_DatePicker(request.POST)
         if penalty_date_form.is_valid():
+
+            # Creando la sancion
             try:
-                today = date.today()
-                final = request.POST.get('penalty_date')
-                print('Fecha de inicio sancion: ' + str(today))
-                print('Fecha de fin sancion: ' + str(final))
+                # Rescatando el valor de la fecha final de penalizacion
+                culminacion = request.POST.get('penalty_date')
+
+                # Creando la sancion
+                ns_prestamo = mi_prestamo.id
+                ns_estado = 1
+                ns_aplicacion = date.today()
+                ns_culminacion = culminacion
+                ns_created = datetime.now()
+                ns_updated = datetime.now()
+                mi_sancion = Sancion(id_prestamo=ns_prestamo, estado=ns_estado, fecha_aplicacion=ns_aplicacion, fecha_culminacion=ns_culminacion, created=ns_created, updated=ns_updated)
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar generar la sanción'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            
+            # Aumentando la disponibilidad del recurso
+            try:
+                disponibilidad = Recurso_Disponible.objects.get(Q(tipo_recurso=mi_prestamo.tipo_recurso) & Q(id_recurso=mi_prestamo.id_recurso))
+                if mi_prestamo.tipo_recurso == 1:
+                    # Es un libro
+                    recurso = cantidad_libro.objects.get(libro_id=mi_prestamo.id_recurso)
+                elif mi_prestamo.tipo_recurso == 2:
+                    # Es un trabajo de grado
+                    recurso = cantidad_trabajo.objects.get(trabajo_id=mi_prestamo.id_recurso)
+
+                if ((disponibilidad.n_disponibles + 1) <= (recurso.cantidad)):
+                    disponibilidad.n_disponibles += 1
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar aumentar la disponibilidad del recurso'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+            # Cambiando el estado del prestamo
+            try:
+                if mi_prestamo.estado_prestamo != 2:
+                    mi_prestamo.estado_prestamo = 2
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar cambiar el estado del prestamo'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+            # Guardando los cambios realizados
+            try:
+                # pass
+
+                # Guardando la sanción
+                mi_sancion.save()
+
+                # Guardando la disponibilidad
+                disponibilidad.updated = datetime.now()
+                disponibilidad.save()
+
+
+                # Guardando la modificación al prestamo
+                mi_prestamo.updated = datetime.now()
+                mi_prestamo.save()
+
+
+                # Redirigiendo a mensaje de éxito
                 titulo = 'Sanción Aplicada'
                 sub_titulo = 'La sanción se ha aplicado correctamente'
                 mensaje = 'En breves segundos se verá reflejada en el sistema'
@@ -214,7 +278,7 @@ def sancionar(request, id_prestamo):
                 return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
             except:
                 titulo = 'Error'
-                sub_titulo = 'Ha ocurrido un error al intentar generar la sanción'
+                sub_titulo = 'Ha ocurrido un error al intentar guardar la sanción'
                 mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
                 icon = 2
                 return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
