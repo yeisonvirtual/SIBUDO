@@ -25,8 +25,12 @@ urlpatterns = [
     path('generar_prestamo/', views.generar_prestamo, name="Generar_Prestamo"),
     path('guardar_prestamo/', views.guardar_prestamo, name="Guardar_Prestamo"),
     path('recibir_prestamo/', views.recibir_prestamo, name="Recibir_Prestamo"),
+    path('recibir_prestamo/<int:id_prestamo>/', views.recibir_prestamo, name="Recibir_Prestamo"),
+    path('mensaje_resultado/<int:id_prestamo>/', views.mensaje_resultado, name="Mensaje_Resultado"),
+    path('editar_prestamo/<int:id_prestamo>/', views.editar_prestamo, name="Editar_Prestamo"),
     path('buscar_prestamo/', views.buscar_prestamo, name="Buscar_Prestamo"),
     path('gestion_sanciones/', views.gestion_sanciones, name="Gestion_Sanciones"),
     path('generar_sancion/', views.generar_sancion, name="Generar_Sancion"),
+    path('sancionar/<int:id_prestamo>/', views.sancionar, name="Sancionar"),
     path('visualizar_sanciones/', views.visualizar_sanciones, name="Visualizar_Sanciones"),
 ]

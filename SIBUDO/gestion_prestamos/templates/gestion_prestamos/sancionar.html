@@ -2,15 +2,17 @@
 
 {% load static %}
 
+{% load bootstrap %}
+
 {% block title %}
-    <title>Recibir Prestamo</title>
+    <title>Sancionar</title>
 {% endblock %}
 
 {% block content %}
     <!-- TEMPLATE HERE -->
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Recibir Prestamo</h1>
+            <h1>Sancionar</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{% url 'Prestamos' %}">Prestamos</a></li>
@@ -52,21 +54,22 @@
 
                         <div class="col-12">
                             <label for="fecha-prest" class="form-label">Fecha Prestamo</label>
-                            <input type="text" class="form-control" id="fecha-prest" value="{{mi_prestamo.fecha_prestamo}}" disabled>
+                            <input type="text" class="form-control" id="fecha-prest" value="{{today}}" disabled>
                         </div>
 
                         <div class="col-12">
-                            <label for="fecha-dev" class="form-label">Fecha Devolucion</label>
-                            <input type="text" class="form-control" id="fecha-dev" value="{{mi_prestamo.fecha_devolucion}}" disabled>
+                            <!-- <label for="fecha-dev" class="form-label">Fecha Devolucion</label> -->
+                            <!-- <input type="date" class="form-control" id="fecha-dev"> -->
+                            {{ penalty_date_form|bootstrap }}
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Marcar como recibido</button>
+                            <button type="submit" class="btn btn-danger">Sancionar Estudiante</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
                     </form><!-- Vertical Form -->
                 </div>
             </div>
         </div>
-
     </main>
 {% endblock %}
