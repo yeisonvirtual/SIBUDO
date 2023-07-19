@@ -19,7 +19,7 @@ class Prestamo(models.Model):
         verbose_name_plural = 'Prestamos'
     
     def __str__(self):
-        return self.id
+        return self.tipo_recurso
 
 class Recurso_Disponible(models.Model):
     # Atributos de modelo
@@ -37,4 +37,21 @@ class Recurso_Disponible(models.Model):
         verbose_name_plural = 'Recursos_Disponibles'
 
     def __str__(self):
-        return self.n_disponibles
+        return self.id_recurso
+
+class Sancion(models.Model):
+    id_prestamo = models.IntegerField()
+    estado = models.BooleanField()
+    fecha_aplicacion = models.DateField()
+    fecha_culminacion = models.DateField()
+
+    # Atributos de creacion y modificacion
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True)
+
+    class Meta():
+        verbose_name = 'Sancion'
+        verbose_name_plural = 'Sanciones'
+    
+    def __str__(self):
+        return self.estado
