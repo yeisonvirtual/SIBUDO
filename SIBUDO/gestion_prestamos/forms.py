@@ -7,3 +7,11 @@ class DatePicker(forms.Form):
             'class': 'form-control'
         }
     ))
+
+class Penalty_DatePicker(forms.Form):
+    penalty_date = forms.DateField(label='Fecha final de sancion', required=True, widget=forms.DateInput(
+        attrs={
+            'type':'date',
+            'class': 'form-control'
+        }
+    ))

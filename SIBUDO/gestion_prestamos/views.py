@@ -9,7 +9,7 @@ from gestion_recursos.models import libro
 from gestion_recursos.models import cantidad_libro
 from gestion_recursos.models import trabajo
 from gestion_recursos.models import cantidad_trabajo
-from .forms import DatePicker
+from .forms import DatePicker, Penalty_DatePicker
 
 # Create your views here.
 def prestamos(request):
@@ -150,7 +150,7 @@ def buscar_prestamo(request):
         nombre = "{} {}".format(estudiante.nombre, estudiante.apellido)
         list_estud.append(nombre)
 
-        # Tipo de prestamos
+        # Tipos de prestamos
         disp_a_prest = Recurso_Disponible.objects.get(Q(tipo_recurso=prestamo.tipo_recurso) & Q(id_recurso=prestamo.id_recurso))
         if disp_a_prest.tipo_prestamo == True:
             list_tipo_p.append('Externo')
@@ -162,7 +162,65 @@ def gestion_sanciones(request):
     return render(request, "gestion_prestamos/gestion_sanciones.html", {})
 
 def generar_sancion(request):
-    return render(request, "gestion_prestamos/generar_sancion.html", {})
+    elegibles_a_sancion = Prestamo.objects.filter(estado_prestamo=3)
+    list_estud = [None]
+    list_tipo_p = [None]
+    for prestamo in elegibles_a_sancion:
+        #Nombres estudiantes
+        estudiante = persona.objects.get(id=prestamo.id_est)
+        nombre = '{} {}'.format(estudiante.nombre, estudiante.apellido)
+        list_estud.append(nombre)
+
+        #Tipos de prestamos
+        disp_a_prestamo = Recurso_Disponible.objects.get(Q(tipo_recurso=prestamo.tipo_recurso) & Q(id_recurso=prestamo.id_recurso))
+        if disp_a_prestamo == True:
+            list_tipo_p.append('Externo')
+        else:
+            list_tipo_p.append('Interno')
+        
+    return render(request, "gestion_prestamos/generar_sancion.html", {'elegibles_a_sancion':elegibles_a_sancion, 'list_estud':list_estud, 'list_tipo_p':list_tipo_p})
+
+def sancionar(request, id_prestamo):
+    # Método GET
+    # Obteniendo los datos para poder generar la sancion
+    mi_prestamo = Prestamo.objects.get(id=id_prestamo)
+    mi_persona = persona.objects.get(id=mi_prestamo.id_est)
+
+    if mi_prestamo.tipo_recurso == 1:
+        mi_recurso = libro.objects.get(id=mi_prestamo.id_recurso)
+    if mi_prestamo.tipo_recurso == 2:
+        mi_recurso = trabajo.objects.get(id=mi_prestamo.id_recurso)
+    
+    # Obteniendo la fecha actual en la que se generará la sanción
+    today = date.today()
+
+    # Creando el datepicker para mostrar mientras GET
+    penalty_date_form = Penalty_DatePicker(request.POST)
+
+    # Método POST
+    if request.method == 'POST':
+        # Crando datepicker para capturar datos del form
+        penalty_date_form = Penalty_DatePicker(request.POST)
+        if penalty_date_form.is_valid():
+            try:
+                today = date.today()
+                final = request.POST.get('penalty_date')
+                print('Fecha de inicio sancion: ' + str(today))
+                print('Fecha de fin sancion: ' + str(final))
+                titulo = 'Sanción Aplicada'
+                sub_titulo = 'La sanción se ha aplicado correctamente'
+                mensaje = 'En breves segundos se verá reflejada en el sistema'
+                icon = 1
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar generar la sanción'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+    
+    # Se retorna la vista del método GET
+    return render(request, "gestion_prestamos/sancionar.html", {"mi_prestamo":mi_prestamo, "mi_persona":mi_persona, "mi_recurso":mi_recurso, "today":today, 'penalty_date_form':penalty_date_form})
 
 def visualizar_sanciones(request):
 
@@ -183,7 +241,7 @@ def visualizar_sanciones(request):
         list_estud.append(nombre)
 
         # Agregando los tipos de prestamos a la lista
-        # Tipo de prestamos
+        # Tipos de prestamos
         disp_a_prest = Recurso_Disponible.objects.get(Q(tipo_recurso=prestamo_sancionado.tipo_recurso) & Q(id_recurso=prestamo_sancionado.id_recurso))
         if disp_a_prest.tipo_prestamo == True:
             list_tipo_p.append('Externo')
