@@ -193,13 +193,71 @@ def guardar_prestamo(request, id_est, tipo_rec, id_rec):
     if request.method == 'POST':
         datePicker_form = DatePicker(request.POST)
         if datePicker_form.is_valid():
-            devolucion = request.POST.get('new_date')
-            
-            titulo = 'Prestamo guardado'
-            sub_titulo = 'Prestamo Guardado Exitosamente'
-            mensaje = 'En breves segundos se verá reflejado en el sistema'
-            icon = 1
-            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+            # Guardando el prestamo recien creado
+            try:
+                np_id_est = id_est
+                np_tipo_rec = tipo_rec
+                np_id_rec = id_rec
+                np_fecha_prestamo = date.today()
+                np_fecha_devolucion = request.POST.get('new_date')
+                np_estado_p = 1
+                np_created = datetime.now()
+                np_updated = datetime.now()
+                mi_prestamo = Prestamo(id_est=np_id_est, tipo_recurso=np_tipo_rec, id_recurso=np_id_rec, fecha_prestamo=np_fecha_prestamo, fecha_devolucion=np_fecha_devolucion, estado_prestamo=np_estado_p, created=np_created, updated=np_updated)
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar crear el prestamo'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+            # Disminuyendo la disponibilidad del recurso
+            try:
+                if ((disponibilidad.n_disponibles - 1) >= 0):
+                    disponibilidad.n_disponibles -= 1
+                else:
+                    raise
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar disminuir la disponibilidad del recurso'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+        
+            try:
+                estudiante.estado = 0
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar cambiar el estado del estudiante'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+        
+            try:
+                # Guardando prestamo
+                mi_prestamo.save()
+
+                # Guardando disponibilidad
+                disponibilidad.updated = datetime.now()
+                disponibilidad.save()
+
+                # Guardando estudiante
+                estudiante.updated = datetime.now()
+                estudiante.save()
+                
+                # Devolviendo vista de exito
+                titulo = 'Prestamo guardado'
+                sub_titulo = 'Prestamo Guardado Exitosamente'
+                mensaje = 'En breves segundos se verá reflejado en el sistema'
+                icon = 1
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar guardar los cambios'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
 
     return render(request, "gestion_prestamos/guardar_prestamo.html", {'tipo_rec':tipo_rec, 'disponibilidad':disponibilidad, 'recurso':recurso,'today':today, 'datePicker_form':datePicker_form, 'estudiante':estudiante, 'recurso':recurso})
 
