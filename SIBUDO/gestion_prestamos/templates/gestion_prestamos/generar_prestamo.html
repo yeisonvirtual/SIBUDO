@@ -1,6 +1,8 @@
 {% extends "SIBUDO_app/base.html" %}
 
 {% load static %}
+{% load bootstrap %}
+{% load my_tags %}
 
 {% block title %}
     <title>Generar Prestamo</title>
@@ -27,14 +29,16 @@
                         <h5 class="card-title">Verificar Estudiante</h5>
         
                         <!-- Vertical Form -->
-                        <form class="row g-3">
+                        <form class="row g-3" method="post">
+                            {% csrf_token %}
                             <div class="col-12">
-                                <label for="cedula" class="form-label">Cédula de Identidad</label>
-                                <input type="text" class="form-control" id="cedula">
+                                <!-- <label for="cedula" class="form-label">Cédula de Identidad</label>
+                                <input type="text" class="form-control" id="cedula"> -->
+                                {{ ci_form|bootstrap }}
                             </div>
         
                             <div class="text-center">
-                                <button type="button" class="btn btn-primary">Verificar</button>
+                                <button type="submit" class="btn btn-primary" name="verificar">Verificar</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
                             </div>
                         </form><!-- Vertical Form -->
@@ -56,12 +60,20 @@
                             </thead>
         
                             <tbody>
-                                <tr>
-                                    <th scope="row">27.041.258</th>
-                                    <td>Jacob</td>
-                                    <td>Brandom</td>
-                                    <td>Activo</td>
-                                </tr>
+                                {% if hay_estudiante == 1 %}
+                                    {% if request.session.estudiante %}
+                                        <tr>
+                                            <th>{{request.session.estudiante.cedula}}</th>
+                                            <td>{{request.session.estudiante.nombre}}</td>
+                                            <td>{{request.session.estudiante.apellido}}</td>
+                                            {% if request.session.estudiante.estado == 1 %}
+                                                <td><div class="badge bg-success">Activo</div></td>
+                                            {% else %}
+                                                <td><div class="badge bg-danger">Inactivo</div></td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endif %}
+                                {% endif %}
                             </tbody>
                         </table>
                         <!-- End Table with hoverable rows -->
@@ -70,235 +82,132 @@
             </div>
         </div>
 
-        <hr>
-        <br>
+        {% if hay_estudiante == 1 and request.session.estudiante.estado == 1 %}
+            <hr>
+            <br>
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Recursos Disponibles</h5>
+                                <p>Acá encontrarás todos los recursos disponibles de acuerdo a la categoría seleccionada.</p>
 
-        <section class="section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Recursos Disponibles</h5>
-                            <p>Acá encontrarás todos los recursos disponibles de acuerdo a la categoría seleccionada.</p>
+                                <hr>
 
-                            <hr>
-
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Recurso</label>
-                                    <div class="col-sm-6">
-                                        <select class="form-select" aria-label="Default select example">
-                                        <option selected disabled>Elije una opción</option>
-                                        <option value="1">Libros</option>
-                                        <option value="2">Trabajos de grado</option>
-                                        </select>
+                                    <div class="row mb-3">
+                                        <form action="" method="post" style="display: flex; flex-direction: row; align-items: center;">
+                                            {% csrf_token %}
+                                            <div class="col-sm-4" style="margin-bottom: 1.55rem;">
+                                                {{ selector_form|bootstrap }}
+                                            </div>
+                                            
+                                            <div class="col-sm-2" style="margin-left: 2.5rem;">
+                                                <button type="submit" class="btn btn-primary" name="select-recurso">Consultar&nbsp;<i class="ri-arrow-right-line"></i></button>
+                                            </div>
+                                        </form>
                                     </div>
-                                </div>
 
-                            <hr>
+                                <hr>
 
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Autor/es</th>
-                                        <th scope="col">Ed</th>
-                                        <th scope="col">Uso</th>
-                                        <th scope="col">Año</th>
-                                        <th scope="col">ISBN</th>
-                                        <th scope="col">Estado</th>
-                                        <th scope="col">Agregar</th>
-                                    </tr>
-                                </thead>
+                                {% if tipo_recurso == 1 %}
+                                    <!-- Table with stripped rows -->
+                                    <table class="table datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Nombre</th>
+                                                <th scope="col">Autor/es</th>
+                                                <th scope="col">Ed</th>
+                                                <th scope="col">Uso</th>
+                                                <th scope="col">Año</th>
+                                                <th scope="col">ISBN</th>
+                                                <th scope="col">Estado</th>
+                                                <th scope="col">Agregar</th>
+                                            </tr>
+                                        </thead>
 
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Estructuras de Datos</td>
-                                        <td>Cormen Leusserson</td>
-                                        <td>1ra</td>
-                                        <td>Interno</td>
-                                        <td>2006</td>
-                                        <td>1097354657</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                        <tbody>
+                                            {% for n in list_estado %}
+                                                {% if forloop.counter0 != 0 %}
+                                                    <tr>
+                                                        <th scope="row">{{forloop.counter0}}</th>
+                                                        <td>{{list_nombre|get:forloop.counter0}}</td>
+                                                        <td>{{list_autor|get:forloop.counter0}}</td>
+                                                        <td>{{list_edicion|get:forloop.counter0}}</td>
+                                                        {% if list_uso|get:forloop.counter0 == True %}
+                                                            <td>Externo</td>
+                                                        {% else %}
+                                                            <td>Interno</td>
+                                                        {% endif %}
+                                                        <td>{{list_anio|get:forloop.counter0}}</td>
+                                                        <td>{{list_ISBN|get:forloop.counter0}}</td>
+                                                        <td>
+                                                            <div class="badge bg-success">Disponible</div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{% url 'Guardar_Prestamo' %}">
+                                                                <button type="button" class="btn btn-primary">Agregar</button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table><!-- End Table with stripped rows -->
+                                {% elif tipo_recurso == 2 %}
+                                    <!-- Table with stripped rows -->
+                                    <table class="table datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Titulo</th>
+                                                <th scope="col">Autor/es</th>
+                                                <th scope="col">Keywords</th>
+                                                <th scope="col">Uso</th>
+                                                <th scope="col">Fecha</th>
+                                                <th scope="col">Estado</th>
+                                                <th scope="col">Agregar</th>
+                                            </tr>
+                                        </thead>
 
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Historia moderna</td>
-                                        <td>Bridie Kessler</td>
-                                        <td>1ra</td>
-                                        <td>Externo</td>
-                                        <td>2023</td>
-                                        <td>2014941277</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Prospectología</td>
-                                        <td>Ashleigh Langosh</td>
-                                        <td>3ra</td>
-                                        <td>Interno</td>
-                                        <td>2007</td>
-                                        <td>2011550812</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Anatomía I</td>
-                                        <td>Angus Grady</td>
-                                        <td>2da</td>
-                                        <td>Externo</td>
-                                        <td>1956</td>
-                                        <td>1215068511</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">5</th>
-                                        <td>El método Adámico</td>
-                                        <td>Raheem Lehner</td>
-                                        <td>6ta</td>
-                                        <td>Externo</td>
-                                        <td>2014</td>
-                                        <td>1146049619</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Python for Dummys</td>
-                                        <td>Van der Roe</td>
-                                        <td>4ta</td>
-                                        <td>Externo</td>
-                                        <td>2018</td>
-                                        <td>1146203961</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">7</th>
-                                        <td>Sistemas operativos</td>
-                                        <td>Stallings</td>
-                                        <td>9na</td>
-                                        <td>Interno</td>
-                                        <td>2023</td>
-                                        <td>0146730961</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">8</th>
-                                        <td>Circuitos</td>
-                                        <td>Sadiku</td>
-                                        <td>8va</td>
-                                        <td>Externo</td>
-                                        <td>2016</td>
-                                        <td>0141737763</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">9</th>
-                                        <td>Clinica I</td>
-                                        <td>Morales</td>
-                                        <td>2da</td>
-                                        <td>Externo</td>
-                                        <td>1977</td>
-                                        <td>0149430563</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th scope="row">10</th>
-                                        <td>La musica y el politempo</td>
-                                        <td>Diego Morales</td>
-                                        <td>7ma</td>
-                                        <td>Interno</td>
-                                        <td>2023</td>
-                                        <td>9797584066</td>
-                                        <td>
-                                            <div class="badge bg-success">Disponible</div>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'Guardar_Prestamo' %}">
-                                                <button type="button" class="btn btn-primary">Agregar</button>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        <!-- End Table with stripped rows -->
+                                        <tbody>
+                                            {% for n in list_estado %}
+                                                {% if forloop.counter0 != 0 %}
+                                                    <tr>
+                                                        <th scope="row">{{forloop.counter0}}</th>
+                                                        <td>{{list_titulo|get:forloop.counter0}}</td>
+                                                        <td>{{list_autor|get:forloop.counter0}}</td>
+                                                        <td>{{list_p_clave|get:forloop.counter0}}</td>
+                                                        {% if list_uso|get:forloop.counter0 == True %}
+                                                            <td>Externo</td>
+                                                        {% else %}
+                                                            <td>Interno</td>
+                                                        {% endif %}
+                                                        <td>{{list_fecha|get:forloop.counter0}}</td>
+                                                        <td>
+                                                            <div class="badge bg-success">Disponible</div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{% url 'Guardar_Prestamo' %}">
+                                                                <button type="button" class="btn btn-primary">Agregar</button>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table><!-- End Table with stripped rows -->
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        {% elif hay_estudiante == 1 and request.session.estudiante.estado == 0 %}
+            <hr>
+            <br>
+            <h1>El estudiante no está activo</h1>
+        {% endif %}
     </main>
 {% endblock %}
