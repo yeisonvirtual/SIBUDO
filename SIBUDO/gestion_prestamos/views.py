@@ -51,6 +51,7 @@ def generar_prestamo(request):
                     list_anio = [None]
                     list_ISBN = [None]
                     list_estado = [None]
+                    list_id = [None]
                     for libro_it in libros_disponibles:
                         libro_a_verificar = libro.objects.get(Q(id=libro_it.id))
                         if libro_a_verificar.disponible == 1:
@@ -61,7 +62,9 @@ def generar_prestamo(request):
                             list_anio.append(libro_a_verificar.anio)
                             list_ISBN.append(libro_a_verificar.isbn)
                             list_estado.append(libro_a_verificar.disponible)
-                    return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_nombre':list_nombre, 'list_autor':list_autor, 'list_edicion':list_edicion, 'list_uso':list_uso, 'list_anio':list_anio, 'list_ISBN':list_ISBN, 'list_estado':list_estado})
+                            list_id.append(libro_a_verificar.id)
+                    return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_nombre':list_nombre, 'list_autor':list_autor, 'list_edicion':list_edicion, 'list_uso':list_uso, 'list_anio':list_anio, 'list_ISBN':list_ISBN, 'list_estado':list_estado, 'list_id':list_id})
+                    pass
                 except:
                     titulo = 'Error'
                     sub_titulo = 'La persona con la cédula introducida no existe'
@@ -96,6 +99,7 @@ def generar_prestamo(request):
                             list_anio = [None]
                             list_ISBN = [None]
                             list_estado = [None]
+                            list_id = [None]
                             for libro_it in libros_disponibles:
                                 libro_a_verificar = libro.objects.get(Q(id=libro_it.id))
                                 if libro_a_verificar.disponible == 1:
@@ -106,7 +110,8 @@ def generar_prestamo(request):
                                     list_anio.append(libro_a_verificar.anio)
                                     list_ISBN.append(libro_a_verificar.isbn)
                                     list_estado.append(libro_a_verificar.disponible)
-                            return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_nombre':list_nombre, 'list_autor':list_autor, 'list_edicion':list_edicion, 'list_uso':list_uso, 'list_anio':list_anio, 'list_ISBN':list_ISBN, 'list_estado':list_estado})
+                                    list_id.append(libro_a_verificar.id)
+                            return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_nombre':list_nombre, 'list_autor':list_autor, 'list_edicion':list_edicion, 'list_uso':list_uso, 'list_anio':list_anio, 'list_ISBN':list_ISBN, 'list_estado':list_estado, 'list_id':list_id})
                         except:
                             titulo = 'Error'
                             sub_titulo = 'Ha ocurrido un error inesperado'
@@ -127,6 +132,7 @@ def generar_prestamo(request):
                             list_uso = [None]
                             list_fecha = [None]
                             list_estado = [None]
+                            list_id = [None]
                             for trabajo_it in trabajos_disponibles:
                                 trabajo_a_verificar = trabajo.objects.get(Q(id=trabajo_it.id_recurso))
                                 if trabajo_a_verificar.disponible == 1:
@@ -136,7 +142,8 @@ def generar_prestamo(request):
                                     list_uso.append(trabajo_it.tipo_prestamo)
                                     list_fecha.append(trabajo_a_verificar.fecha)
                                     list_estado.append(trabajo_a_verificar.disponible)
-                            return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_titulo':list_titulo, 'list_autor':list_autor, 'list_p_clave':list_p_clave, 'list_uso':list_uso, 'list_fecha':list_fecha, 'list_estado':list_estado})
+                                    list_id.append(trabajo_a_verificar.id)
+                            return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_titulo':list_titulo, 'list_autor':list_autor, 'list_p_clave':list_p_clave, 'list_uso':list_uso, 'list_fecha':list_fecha, 'list_estado':list_estado, 'list_id':list_id})
                         except:
                             titulo = 'Error'
                             sub_titulo = 'Ha ocurrido un error inesperado'
@@ -165,8 +172,36 @@ def generar_prestamo(request):
 
     return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante})
 
-def guardar_prestamo(request):
-    return render(request, "gestion_prestamos/guardar_prestamo.html", {})
+def guardar_prestamo(request, id_est, tipo_rec, id_rec):
+    estudiante = persona.objects.get(id=id_est)
+    if tipo_rec == 1:
+        recurso = libro.objects.get(id=id_rec)
+    elif tipo_rec == 2:
+        recurso = trabajo.objects.get(id=id_rec)
+    else:
+        titulo = 'Error'
+        sub_titulo = 'Ha ocurrido un error inesperado'
+        mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+        icon = 2
+        return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+    
+    disponibilidad = Recurso_Disponible.objects.get(Q(tipo_recurso=tipo_rec) & Q(id_recurso=id_rec))
+
+    datePicker_form = DatePicker(request.POST)
+    today = date.today()
+
+    if request.method == 'POST':
+        datePicker_form = DatePicker(request.POST)
+        if datePicker_form.is_valid():
+            devolucion = request.POST.get('new_date')
+            
+            titulo = 'Prestamo guardado'
+            sub_titulo = 'Prestamo Guardado Exitosamente'
+            mensaje = 'En breves segundos se verá reflejado en el sistema'
+            icon = 1
+            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+    return render(request, "gestion_prestamos/guardar_prestamo.html", {'tipo_rec':tipo_rec, 'disponibilidad':disponibilidad, 'recurso':recurso,'today':today, 'datePicker_form':datePicker_form, 'estudiante':estudiante, 'recurso':recurso})
 
 def recibir_prestamo(request,id_prestamo):
     # Obteniendo los modelos que se van a utilizar

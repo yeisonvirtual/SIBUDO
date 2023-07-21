@@ -96,7 +96,7 @@
                                 <hr>
 
                                     <div class="row mb-3">
-                                        <form action="" method="post" style="display: flex; flex-direction: row; align-items: center;">
+                                        <form action="" method="POST" style="display: flex; flex-direction: row; align-items: center;">
                                             {% csrf_token %}
                                             <div class="col-sm-4" style="margin-bottom: 1.55rem;">
                                                 {{ selector_form|bootstrap }}
@@ -146,7 +146,7 @@
                                                             <div class="badge bg-success">Disponible</div>
                                                         </td>
                                                         <td>
-                                                            <a href="{% url 'Guardar_Prestamo' %}">
+                                                            <a href="{% url 'Guardar_Prestamo' request.session.estudiante.id 1 list_id|get:forloop.counter0 %}">
                                                                 <button type="button" class="btn btn-primary">Agregar</button>
                                                             </a>
                                                         </td>
@@ -189,7 +189,7 @@
                                                             <div class="badge bg-success">Disponible</div>
                                                         </td>
                                                         <td>
-                                                            <a href="{% url 'Guardar_Prestamo' %}">
+                                                            <a href="{% url 'Guardar_Prestamo' request.session.estudiante.id 2 list_id|get:forloop.counter0 %}">
                                                                 <button type="button" class="btn btn-primary">Agregar</button>
                                                             </a>
                                                         </td>
