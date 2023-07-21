@@ -9,7 +9,10 @@ from gestion_recursos.models import libro
 from gestion_recursos.models import cantidad_libro
 from gestion_recursos.models import trabajo
 from gestion_recursos.models import cantidad_trabajo
-from .forms import DatePicker, Penalty_DatePicker
+from .forms import DatePicker, Penalty_DatePicker, CI_Form, Selector_Recurso_Form
+
+# Context processor
+from .estudiante import Estudiante
 
 # Create your views here.
 def prestamos(request):
@@ -19,10 +22,244 @@ def gestion_prestamos(request):
     return render(request, "gestion_prestamos/gestion_prestamos.html", {})
 
 def generar_prestamo(request):
-    return render(request, "gestion_prestamos/generar_prestamo.html", {})
+    estudiante = Estudiante(request)
+    ci_form = CI_Form(request.POST)
+    hay_estudiante = 0
+    mi_estudiante = 0
+    if request.method == 'POST':
+        # Verificando la cedula del estudiante
+        if 'verificar' in request.POST:
+            ci_form = CI_Form(request.POST)
+            if ci_form.is_valid():
+                try:
+                    ci = request.POST.get('ci')
+                    mi_estudiante = persona.objects.get(cedula=ci)
+                    estudiante.actualizar(new_estudiante=mi_estudiante)
+                    hay_estudiante = 1
+                    selector_form = Selector_Recurso_Form(request.POST)
+                    tipo_recurso = 1
 
-def guardar_prestamo(request):
-    return render(request, "gestion_prestamos/guardar_prestamo.html", {})
+                    # Si el estudiante se encuentra activo la primera opcion de
+                    # recurso será libro, por eso se aprovecha de enviar los
+                    # recursos disponibles. Si se quiere trabajo de grado se
+                    # puede seleccionar en el form-selector
+                    libros_disponibles = Recurso_Disponible.objects.filter(Q(tipo_recurso=1) & Q(n_disponibles__gte=1))
+                    list_nombre = [None]
+                    list_autor = [None]
+                    list_edicion = [None]
+                    list_uso = [None]
+                    list_anio = [None]
+                    list_ISBN = [None]
+                    list_estado = [None]
+                    list_id = [None]
+                    for libro_it in libros_disponibles:
+                        libro_a_verificar = libro.objects.get(Q(id=libro_it.id))
+                        if libro_a_verificar.disponible == 1:
+                            list_nombre.append(libro_a_verificar.nombre)
+                            list_autor.append(libro_a_verificar.autor)
+                            list_edicion.append(libro_a_verificar.edicion)
+                            list_uso.append(libro_it.tipo_prestamo)
+                            list_anio.append(libro_a_verificar.anio)
+                            list_ISBN.append(libro_a_verificar.isbn)
+                            list_estado.append(libro_a_verificar.disponible)
+                            list_id.append(libro_a_verificar.id)
+                    return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_nombre':list_nombre, 'list_autor':list_autor, 'list_edicion':list_edicion, 'list_uso':list_uso, 'list_anio':list_anio, 'list_ISBN':list_ISBN, 'list_estado':list_estado, 'list_id':list_id})
+                    pass
+                except:
+                    titulo = 'Error'
+                    sub_titulo = 'La persona con la cédula introducida no existe'
+                    mensaje = 'De no ser esto cierto comuníquese con servicio técnico'
+                    icon = 2
+                    return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            else:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error inesperado'
+                mensaje = 'Inténtelo nuevamente y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+        
+        # Seleccionando el recurso
+        if 'select-recurso' in request.POST:
+            selector_form = Selector_Recurso_Form(request.POST)
+            if selector_form.is_valid():
+                try:
+                    eleccion = request.POST.get('selector')
+                    if eleccion == '1':
+                        try:
+                            hay_estudiante = 1
+                            selector_form = Selector_Recurso_Form(request.POST)
+                            tipo_recurso = 1
+
+                            # Cargando trabajos disponibles
+                            libros_disponibles = Recurso_Disponible.objects.filter(Q(tipo_recurso=1) & Q(n_disponibles__gte=1))
+                            list_nombre = [None]
+                            list_autor = [None]
+                            list_edicion = [None]
+                            list_uso = [None]
+                            list_anio = [None]
+                            list_ISBN = [None]
+                            list_estado = [None]
+                            list_id = [None]
+                            for libro_it in libros_disponibles:
+                                libro_a_verificar = libro.objects.get(Q(id=libro_it.id))
+                                if libro_a_verificar.disponible == 1:
+                                    list_nombre.append(libro_a_verificar.nombre)
+                                    list_autor.append(libro_a_verificar.autor)
+                                    list_edicion.append(libro_a_verificar.edicion)
+                                    list_uso.append(libro_it.tipo_prestamo)
+                                    list_anio.append(libro_a_verificar.anio)
+                                    list_ISBN.append(libro_a_verificar.isbn)
+                                    list_estado.append(libro_a_verificar.disponible)
+                                    list_id.append(libro_a_verificar.id)
+                            return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_nombre':list_nombre, 'list_autor':list_autor, 'list_edicion':list_edicion, 'list_uso':list_uso, 'list_anio':list_anio, 'list_ISBN':list_ISBN, 'list_estado':list_estado, 'list_id':list_id})
+                        except:
+                            titulo = 'Error'
+                            sub_titulo = 'Ha ocurrido un error inesperado'
+                            mensaje = 'hello its mi Inténtelo nuevamente y si el problema persiste comuníquese con servicio técnico'
+                            icon = 2
+                            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+                    elif eleccion == '2':
+                        try:
+                            hay_estudiante = 1
+                            selector_form = Selector_Recurso_Form(request.POST)
+                            tipo_recurso = 2
+
+                            # Cargando trabajos disponibles
+                            trabajos_disponibles = Recurso_Disponible.objects.filter(Q(tipo_recurso=2) & Q(n_disponibles__gte=1))
+                            list_titulo = [None]
+                            list_autor = [None]
+                            list_p_clave = [None]
+                            list_uso = [None]
+                            list_fecha = [None]
+                            list_estado = [None]
+                            list_id = [None]
+                            for trabajo_it in trabajos_disponibles:
+                                trabajo_a_verificar = trabajo.objects.get(Q(id=trabajo_it.id_recurso))
+                                if trabajo_a_verificar.disponible == 1:
+                                    list_titulo.append(trabajo_a_verificar.titulo)
+                                    list_autor.append(trabajo_a_verificar.autor)
+                                    list_p_clave.append(trabajo_a_verificar.palabras_clave)
+                                    list_uso.append(trabajo_it.tipo_prestamo)
+                                    list_fecha.append(trabajo_a_verificar.fecha)
+                                    list_estado.append(trabajo_a_verificar.disponible)
+                                    list_id.append(trabajo_a_verificar.id)
+                            return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante,'selector_form':selector_form, 'tipo_recurso':tipo_recurso, 'list_titulo':list_titulo, 'list_autor':list_autor, 'list_p_clave':list_p_clave, 'list_uso':list_uso, 'list_fecha':list_fecha, 'list_estado':list_estado, 'list_id':list_id})
+                        except:
+                            titulo = 'Error'
+                            sub_titulo = 'Ha ocurrido un error inesperado'
+                            mensaje = 'Inténtelo nuevamente y si el problema persiste comuníquese con servicio técnico'
+                            icon = 2
+                            return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+                    else:
+                        titulo = 'Error'
+                        sub_titulo = 'La opción seleccionada es inválida'
+                        mensaje = 'Inténtelo nuevamente y si el problema persiste comuníquese con servicio técnico'
+                        icon = 2
+                        return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+                except:
+                    titulo = 'Error'
+                    sub_titulo = 'Ha ocurrido un error inesperado'
+                    mensaje = 'Inténtelo nuevamente y si el problema persiste comuníquese con servicio técnico'
+                    icon = 2
+                    return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            else:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error inesperado'
+                mensaje = 'Inténtelo nuevamente y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+
+    return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante})
+
+def guardar_prestamo(request, id_est, tipo_rec, id_rec):
+    estudiante = persona.objects.get(id=id_est)
+    if tipo_rec == 1:
+        recurso = libro.objects.get(id=id_rec)
+    elif tipo_rec == 2:
+        recurso = trabajo.objects.get(id=id_rec)
+    else:
+        titulo = 'Error'
+        sub_titulo = 'Ha ocurrido un error inesperado'
+        mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+        icon = 2
+        return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+    
+    disponibilidad = Recurso_Disponible.objects.get(Q(tipo_recurso=tipo_rec) & Q(id_recurso=id_rec))
+
+    datePicker_form = DatePicker(request.POST)
+    today = date.today()
+
+    if request.method == 'POST':
+        datePicker_form = DatePicker(request.POST)
+        if datePicker_form.is_valid():
+
+            # Guardando el prestamo recien creado
+            try:
+                np_id_est = id_est
+                np_tipo_rec = tipo_rec
+                np_id_rec = id_rec
+                np_fecha_prestamo = date.today()
+                np_fecha_devolucion = request.POST.get('new_date')
+                np_estado_p = 1
+                np_created = datetime.now()
+                np_updated = datetime.now()
+                mi_prestamo = Prestamo(id_est=np_id_est, tipo_recurso=np_tipo_rec, id_recurso=np_id_rec, fecha_prestamo=np_fecha_prestamo, fecha_devolucion=np_fecha_devolucion, estado_prestamo=np_estado_p, created=np_created, updated=np_updated)
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar crear el prestamo'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+            # Disminuyendo la disponibilidad del recurso
+            try:
+                if ((disponibilidad.n_disponibles - 1) >= 0):
+                    disponibilidad.n_disponibles -= 1
+                else:
+                    raise
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar disminuir la disponibilidad del recurso'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+        
+            try:
+                estudiante.estado = 0
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar cambiar el estado del estudiante'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+        
+            try:
+                # Guardando prestamo
+                mi_prestamo.save()
+
+                # Guardando disponibilidad
+                disponibilidad.updated = datetime.now()
+                disponibilidad.save()
+
+                # Guardando estudiante
+                estudiante.updated = datetime.now()
+                estudiante.save()
+                
+                # Devolviendo vista de exito
+                titulo = 'Prestamo guardado'
+                sub_titulo = 'Prestamo Guardado Exitosamente'
+                mensaje = 'En breves segundos se verá reflejado en el sistema'
+                icon = 1
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+            except:
+                titulo = 'Error'
+                sub_titulo = 'Ha ocurrido un error al intentar guardar los cambios'
+                mensaje = 'Vuelva a intentarlo y si el problema persiste comuníquese con servicio técnico'
+                icon = 2
+                return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
+
+    return render(request, "gestion_prestamos/guardar_prestamo.html", {'tipo_rec':tipo_rec, 'disponibilidad':disponibilidad, 'recurso':recurso,'today':today, 'datePicker_form':datePicker_form, 'estudiante':estudiante, 'recurso':recurso})
 
 def recibir_prestamo(request,id_prestamo):
     # Obteniendo los modelos que se van a utilizar
