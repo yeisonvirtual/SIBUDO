@@ -1,15 +1,15 @@
 from django.shortcuts import render
 from django.views.generic import View
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
-from user_management.forms import register_user_form, CustomUserCreationForm 
+from user_management.forms import register_user_form
 
 class register_user(View):
     def get(self, request):
-        form = CustomUserCreationForm()
+        form = register_user_form()
         rol_aviable = ['Estudiante', 'Bibliotecario']
         context = {
             'form' : form,
@@ -18,7 +18,7 @@ class register_user(View):
         return render(request, "user_management/register/register.html",context)
 
     def post(self, request):
-        form = UserCreationForm(request.POST)
+        form = register_user_form(request.POST)
         rol_aviable = ['Estudiante', 'Bibliotecario']
         context = {
             'form' : form,
