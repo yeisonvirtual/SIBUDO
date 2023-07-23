@@ -3,13 +3,13 @@ from django.views.generic import View
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import Group
-
+from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
-from user_management.forms import register_user_form
+from user_management.forms import register_user_form, CustomUserCreationForm 
 
 class register_user(View):
     def get(self, request):
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         rol_aviable = ['Estudiante', 'Bibliotecario']
         context = {
             'form' : form,
@@ -25,7 +25,19 @@ class register_user(View):
             'rol_aviable' : rol_aviable
         }
         if form.is_valid():
-            usuario = form.save()
+            # usuario = form.save()
+            user = form.save(commit=False)  # Guarda el usuario sin guardar en la base de datos todavía
+            # se obtienen los valores de los campos adicionales
+            first_name = request.POST.get('nombre')
+            last_name = request.POST.get('apellido')
+            email = request.POST.get('correo')
+            # Asigna los campos adicionales al usuario
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            # Guarda el usuario en la base de datos
+            user.save()
+
             selected_role = request.POST['role']
 
             if selected_role == 'Estudiante':
@@ -33,7 +45,7 @@ class register_user(View):
                 # Obtén o crea el grupo
                 group, created = Group.objects.get_or_create(name='Estudiantes')
                 # Asignar al grupo 
-                usuario.groups.add(group)
+                user.groups.add(group)
                 messages.success(request, 'Registro exitoso')
 
             elif selected_role == 'Bibliotecario':
@@ -41,10 +53,10 @@ class register_user(View):
                 # Obtén o crea el grupo 
                 group, created = Group.objects.get_or_create(name='Bibliotecario')
                 # Asignar al grupo
-                usuario.groups.add(group)
+                user.groups.add(group)
                 messages.success(request, 'Registro exitoso')
 
-            # login(request, usuario)
+            # login(request, user)
             return render(request, "user_management/register/register.html",context)
         else:
             for msg in form.error_messages:
