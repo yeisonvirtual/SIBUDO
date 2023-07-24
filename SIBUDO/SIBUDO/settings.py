@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'SIBUDO_app',
     'gestion_recursos',
+    'recursos',
     'gestion_usuarios',
     'authentication',
     'sanciones_estudiante',

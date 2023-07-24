@@ -243,8 +243,6 @@ def gestion_trabajos(request):
             all_trabajos = trabajo.objects.all()
             all_cantidad = cantidad_trabajo.objects.all()
 
-            print(all_cantidad[0].trabajo_id)
-
             # retorna todos los libros
             return render(request, "gestion_recursos/gestion_trabajos.html", {'nombre':user_name, 'trabajos': all_trabajos, 'cantidades': all_cantidad})
     
