@@ -26,50 +26,100 @@
           <div class="card-body">
             <h5 class="card-title">Trabajos de grado</h5>
 
-            <!-- Table with stripped rows -->
-            <table class="table datatable">
+            <p> Gestionar trabajos de grado </p>
 
-              <thead>
+            <a href="{% url 'Agregar trabajo' %}" class="btn btn-primary" style="margin-bottom: 8px;">Agregar</a>
+            
+            <form class="row g-3" method="POST" action="">
+              
+              {% csrf_token %}
+
+              <hr>
+
+              <div class="col-sm-2">
+                <select class="form-select" aria-label="Default select example" name="row">
+                  <option selected disabled>Seleccione</option>
+                  <option value="1">ID</option>
+                  <option value="2">Título</option>
+                  <option value="3">Autor</option>
+                  <option value="4">Palabras</option>
+                  <option value="5">Fecha</option>
+                  </select>
+              </div>
+
+              <div class="col-md-6">
+
+                <input type="text" class="form-control" name="search">
+                  
+              </div>
+
+              <div class="col-md-1">
+
+                <button type="submit" class="btn btn-primary">Buscar</button>
+
+              </div>
+
+              <hr>
+
+            </form>
+
+            <!-- si hay libros -->
+            {% if trabajos %}
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Autor(es)</th>
+                    <th scope="col">Palabras</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                <!-- recorre todos los libros -->
+                {% for trabajo in trabajos %}
+
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Autor(es)</th>
-                  <th scope="col">Año</th>
-                  <th scope="col">Opciones</th>
-                </tr>
-              </thead>
+                  <th scope="row">{{ trabajo.id }}</th>
+                  <td>{{ trabajo.titulo }}</td>
+                  <td>{{ trabajo.autor }}</td>
+                  <td>{{ trabajo.palabras_clave }}</td>
+                  <td>{{ trabajo.fecha }}</td>
+                  
+                  <!-- le asigna la cantidad correspondiente -->
+                  {% for cantidad in cantidades %}
 
-              <tbody>
+                    {% if trabajo.id == cantidad.trabajo_id %}
 
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Tesis de Inteligencia artificial</td>
-                  <td>Yeison Rojas</td>
-                  <td>2023</td>
+                      <td>{{ cantidad.cantidad }}</td>
+
+                    {% endif %}
+                  
+                  {% endfor %}
+
                   <td>
-                    <a href="#" class="btn btn-primary">Editar</a>
-                    <a href="#" class="btn btn-secondary">Borrar</a>
+                    <!-- url: libros/editar/<int:libro_id>/ -->
+                    <a href="{% url 'Editar trabajo' trabajo.id %}" class="btn btn-primary"> <i class="bi bi-pencil"></i></a>
+                    <!-- url: libros/eliminar/<int:libro_id>/ -->
+                    <a href="{% url 'Eliminar trabajo' trabajo.id %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
                   </td>
                 </tr>
 
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Tesis de Cloud Computing</td>
-                  <td>
-                    Eulises Brazon,
-                    Luis Marquez
-                  </td>
-                  <td>2022</td>
-                  <td>
-                    <a href="#" class="btn btn-primary">Editar</a>
-                    <a href="#" class="btn btn-secondary">Borrar</a>
-                  </td>
-                </tr>
+              {% endfor %}
 
               </tbody>
               
             </table>
             <!-- End Table with stripped rows -->
+
+            {% endif %}
 
           </div>
         </div>

@@ -26,4 +26,7 @@ urlpatterns = [
     path('libros/editar/<int:libro_id>/', views.editar_libro, name="Editar libro"),
     
     path('trabajos/', views.gestion_trabajos, name="Gestion trabajos"),
+    path('trabajos/agregar', views.agregar_trabajo, name="Agregar trabajo"),
+    path('trabajos/eliminar/<int:trabajo_id>/', views.eliminar_trabajo, name="Eliminar trabajo"),
+    path('trabajos/editar/<int:trabajo_id>/', views.editar_trabajo, name="Editar trabajo"),
 ]
