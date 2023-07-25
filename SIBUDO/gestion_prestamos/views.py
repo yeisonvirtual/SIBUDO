@@ -361,6 +361,7 @@ def editar_prestamo(request, id_prestamo):
             try:
                 new_date = request.POST.get('new_date')
                 mi_prestamo.fecha_devolucion = new_date
+                mi_prestamo.estado_prestamo = 1
                 mi_prestamo.updated = datetime.now()
                 mi_prestamo.save()
                 titulo = 'Prestamo Modificado'
