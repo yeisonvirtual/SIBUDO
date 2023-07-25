@@ -139,12 +139,31 @@
         </a>
       </li><!-- End Index Nav -->
 
-      <!-- Gestion -->
+      <!-- Recursos -->
       <li class="nav-item">
-        <a class="nav-link {% if request.path|slice:':18' != '/gestion_recursos/' %} collapsed {% endif %}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+        <a class="nav-link {% if request.path|slice:':10' != '/recursos/' %} collapsed {% endif %}" data-bs-target="#recursos-nav" data-bs-toggle="collapse" href="#">
+          <i class=" bi bi-book"></i><span>Recursos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="recursos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'Buscar libros' %}">
+              <i class="bi bi-circle"></i><span>Libros</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Buscar trabajos' %}">
+              <i class="bi bi-circle"></i><span>Trabajos de grado</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Recursos Nav -->
+
+      <!-- Gestion recursos -->
+      <li class="nav-item">
+        <a class="nav-link {% if request.path|slice:':18' != '/gestion_recursos/' %} collapsed {% endif %}" data-bs-target="#gestion-recursos-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-menu-button-wide"></i><span>Gestion recursos</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="gestion-recursos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="{% url 'Gestion libros' %}">
               <i class="bi bi-circle"></i><span>Libros</span>
