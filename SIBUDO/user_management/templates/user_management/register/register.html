@@ -29,7 +29,31 @@
               </div>
             </div>   
           
-            {% for field in form.visible_fields %}
+            {% for field in person_form.visible_fields %}
+              <div class="form-group">
+                <div class="row justify-content-center align-items-center m-3">
+                  <div class="col-12 text-center">
+                    <label class="form-label" style="width: 150px;">
+                      {{ field.label }}
+                    </label>
+                    {{ field }}
+                  </div>
+                </div>
+    
+                {% if field.errors %}
+                  <div class="row justify-content-center align-items-center">
+                    <div class="text-danger text-center"> <!-- Agregamos la clase "text-center" -->
+                      {% for error in field.errors %}
+                        <span>{{ error }}<br></span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              
+              </div>
+            {% endfor %}
+
+            {% for field in user_form.visible_fields %}
               <div class="form-group">
                 <div class="row justify-content-center align-items-center m-3">
                   <div class="col-12 text-center">
@@ -76,5 +100,3 @@
 </main>
 
 {% endblock %}
-
-
