@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'bootstrapform',
     'SIBUDO_app',
     'gestion_recursos',
-    'gestion_usuarios',
     'authentication',
     'sanciones_estudiante',
     'gestion_prestamos',
+    'authentication',
+    'gestion_usuarios',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'gestion_usuarios.middleware.UserProfileAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'SIBUDO.urls'

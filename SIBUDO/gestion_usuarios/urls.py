@@ -1,25 +1,20 @@
-"""
-URL configuration for proyecto_django project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
-
+from authentication.views.profile import user_profile
+from authentication.views.change_password import change_password_api
+from .views.register import register_user
+from .views.views import user_table
 from . import views
 
 urlpatterns = [
     path('', views.gestion_usuarios, name="Gestion_usuarios"),
-    path('editar_usuario/', views.editar_usuario, name="Editar_usuario")
+    path('editar_usuario/', views.editar_usuario, name="Editar_usuario"),
+
+    path('<int:user_id>/<str:active_tab>/', user_profile, name='user_profile'),
+    path('<int:user_id>/', user_profile, name='user_profile'),
+
+    path('', register_user.as_view(), name="register_user"),
+
+    path('api/change_password/', change_password_api, name='change_password_api'),
+    path('tabla_de_usuarios', user_table, name='user_table'),
 ]

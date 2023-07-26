@@ -45,7 +45,7 @@
   ======================================================== -->
 </head>
 
-<body>
+<body  {% if not request.user.is_authenticated %}class='toggle-sidebar'{% endif %}>
 
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
@@ -55,7 +55,9 @@
         <img src="{% static 'SIBUDO_app/assets/img/logo.png' %}" alt="">
         <span class="d-none d-lg-block">SIBUDO</span>
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
+      {% if request.user.is_authenticated %}
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+      {% endif %}
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
@@ -67,7 +69,7 @@
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-person"></i>
-            <span class="d-none d-md-block dropdown-toggle ps-2">{{ nombre }}</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{ user.username }}</span>
           </a><!-- End Profile Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
@@ -80,7 +82,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profile' user_id=request.user.id active_tab='overview' %}">
                 <i class="bi bi-person"></i>
                 <span>Mi perfil</span>
               </a>
@@ -89,12 +91,12 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+            {% comment %} <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profile' user_id=request.user.id active_tab='edit_profile' %}">
                 <i class="bi bi-gear"></i>
                 <span>Configurar cuenta</span>
               </a>
-            </li>
+            </li> {% endcomment %}
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -111,11 +113,12 @@
             </li>
 
           </ul><!-- End Profile Dropdown Items -->
+          
 
           {% else %}
           
           <a href="{% url 'sing_in' %}" type="button" class="btn btn-primary">Iniciar Sesion</a>
-          <a href="{% url 'authentication' %}" type="button" class="btn btn-primary">Registrarse</a> 
+          {% comment %} <a type="button" class="btn btn-primary">Registrarse</a>  {% endcomment %}
           {% endif %}
 
           
@@ -127,88 +130,25 @@
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link {% if request.path != '/' %} collapsed {% endif %}" href="{% url 'Index' %}">
-          <i class="bi bi-grid"></i>
-          <span> Inicio </span>
-        </a>
-      </li><!-- End Index Nav -->
-
-      <!-- Gestion -->
-      <li class="nav-item">
-        <a class="nav-link {% if request.path|slice:':18' != '/gestion_recursos/' %} collapsed {% endif %}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-menu-button-wide"></i><span>Gestion recursos</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{% url 'Gestion libros' %}">
-              <i class="bi bi-circle"></i><span>Libros</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'Gestion trabajos' %}">
-              <i class="bi bi-circle"></i><span>Trabajos de grado</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Gestion recursos Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link {% if request.path != '/gestion_usuarios/' %} collapsed {% endif %}" href="{% url 'Gestion_usuarios' %}">
-          <i class="bi bi-person"></i>
-          <span>Gestion usuarios</span>
-        </a>
-      </li><!-- End Gestion usuarios Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
-          <i class="bi bi-stoplights"></i>
-          <span>Sanciones</span>
-        </a>
-      </li><!-- sanciones -->
-
-      <li class="nav-item">
-        <a class="nav-link {% if request.path|slice:':18' != '/gestion_prestamos/' %} collapsed {% endif %}" data-bs-target="#prestamos-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-arrow-up"></i><span>Prestamos</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="prestamos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{% url 'Gestion_Prestamos' %}">
-              <i class="bi bi-circle"></i><span>Gestion de prestamos</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'Gestion_Sanciones' %}">
-              <i class="bi bi-circle"></i><span>Gestion de Sanciones</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Gestion prestamos Nav -->
-
-    </aside><!-- End Sidebar-->
+    {% if request.user.is_authenticated %}
+      {% include "SIBUDO_app/sidebar.html" %}
+    {% endif %}
     
     {% block content %}
-
-
     {% endblock %}
 
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>SIBUDO</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://es.wikipedia.org/wiki/Universidad_de_Oriente_N%C3%BAcleo_de_Anzo%C3%A1tegui" target="_blank">Universidad de Oriente</a>
-    </div>
+      <div class="copyright">
+        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
     </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
