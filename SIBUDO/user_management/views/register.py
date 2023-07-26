@@ -11,7 +11,7 @@ class register_user(View):
     def get(self, request):
         user_form = User_form()
         person_form = Persona_Form()
-        rol_aviable = ['Estudiante', 'Bibliotecario']
+        rol_aviable = ['Estudiante', 'Bibliotecario', 'Invitado']
         context = {
             'user_form' : user_form,
             'person_form' : person_form,

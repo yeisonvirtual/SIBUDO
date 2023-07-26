@@ -90,12 +90,12 @@
               <hr class="dropdown-divider">
             </li>
 
-            <li>
+            {% comment %} <li>
               <a class="dropdown-item d-flex align-items-center" href="{% url 'user_profile' user_id=request.user.id active_tab='edit_profile' %}">
                 <i class="bi bi-gear"></i>
                 <span>Configurar cuenta</span>
               </a>
-            </li>
+            </li> {% endcomment %}
             <li>
               <hr class="dropdown-divider">
             </li>

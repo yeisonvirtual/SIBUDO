@@ -36,5 +36,3 @@ class Persona_Form(forms.ModelForm):
     class Meta:
         model = Persona
         fields = ['cedula', 'nombre', 'apellido', 'fecha_nacimiento', 'genero']
-
-        

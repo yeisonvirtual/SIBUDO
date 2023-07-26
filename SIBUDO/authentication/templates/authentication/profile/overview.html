@@ -1,6 +1,40 @@
 
 <h5 class="card-title">Profile Details</h5>
+{% if user_profile %}
+<div class="row">
+    <div class="col-lg-3 col-md-4 label">Usuario</div>
+    <div class="col-lg-9 col-md-8">{{ user_profile.username }}</div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-4 label">Correo</div>
+    <div class="col-lg-9 col-md-8">{{ user_profile.email }}</div>
+</div>
+{% endif %}
+{% if person_profile %}
+<div class="row">
+    <div class="col-lg-3 col-md-4 label">Cedula</div>
+    <div class="col-lg-9 col-md-8">{{ person_profile.cedula }}</div>
+</div>
 <div class="row">
     <div class="col-lg-3 col-md-4 label">Nombre</div>
-    <div class="col-lg-9 col-md-8">{{ user.username }}</div>
+    <div class="col-lg-9 col-md-8">{{ person_profile.nombre }}</div>
 </div>
+<div class="row">
+    <div class="col-lg-3 col-md-4 label">Apellido</div>
+    <div class="col-lg-9 col-md-8">{{ person_profile.apellido }}</div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-4 label">Estado</div>
+    {% if person_profile.estado == 1 %}
+    <div class="col-lg-9 col-md-8">Activo</div>
+    {% else %}
+    <div class="col-lg-9 col-md-8">Suspendido</div>
+    {% endif %}
+    
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-4 label">Fecha de nacimiento</div>
+    <div class="col-lg-9 col-md-8">{{ person_profile.fecha_nacimiento }}</div>
+</div>
+{% endif %}
+
