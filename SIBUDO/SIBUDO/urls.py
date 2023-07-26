@@ -11,5 +11,6 @@ urlpatterns = [
     path('sanciones_estudiante/', include('sanciones_estudiante.urls')),
     path('prestamos/', include('gestion_prestamos.urls')),
     path('authentication/', include('authentication.urls')),
-    # path('recursos/', include('recursos.urls')),
+    path('gestion_recursos/', include('gestion_recursos.urls')),
+    path('recursos/', include('recursos.urls')),
 ]
