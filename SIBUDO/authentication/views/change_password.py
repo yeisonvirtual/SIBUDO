@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import update_session_auth_hash
 from django.views.decorators.csrf import csrf_exempt
-from gestion_usuarios.models import Persona
+from gestion_usuarios.models import persona
 
 @csrf_exempt
 def change_password_api(request):
@@ -13,8 +13,8 @@ def change_password_api(request):
         #informacino necesaria para agreagar al contexto
         user_profile = get_object_or_404(User, id=request.user.id)
         try:
-            person_profile = Persona.objects.get(user=user_profile)
-        except Persona.DoesNotExist:
+            person_profile = persona.objects.get(user=user_profile)
+        except persona.DoesNotExist:
             pass
 
 

@@ -55,9 +55,9 @@
         <img src="{% static 'SIBUDO_app/assets/img/logo.png' %}" alt="">
         <span class="d-none d-lg-block">SIBUDO</span>
       </a>
-      {% if request.user.is_authenticated %}
+      {% comment %} {% if request.user.is_authenticated %} {% endcomment %}
         <i class="bi bi-list toggle-sidebar-btn"></i>
-      {% endif %}
+      {% comment %} {% endif %} {% endcomment %}
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
@@ -130,9 +130,9 @@
 
   </header><!-- End Header -->
 
-    {% if request.user.is_authenticated %}
+    {% comment %} {% if request.user.is_authenticated %} {% endcomment %}
       {% include "SIBUDO_app/sidebar.html" %}
-    {% endif %}
+    {% comment %} {% endif %} {% endcomment %}
     
     {% block content %}
     {% endblock %}

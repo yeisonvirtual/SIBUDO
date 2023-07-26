@@ -28,13 +28,13 @@
           </li>
         </ul>
       </li><!-- End Gestion recursos Nav -->
-  
+{% comment %}   
       <li class="nav-item">
         <a class="nav-link {% if request.path != '/gestion_usuarios/' %} collapsed {% endif %}" href="{% url 'Gestion_usuarios' %}">
           <i class="bi bi-person"></i>
           <span>Gestion usuarios</span>
         </a>
-      </li><!-- End Gestion usuarios Nav -->
+      </li><!-- End Gestion usuarios Nav --> {% endcomment %}
   
       <li class="nav-item">
         <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
@@ -61,8 +61,8 @@
         </ul>
       </li><!-- End Gestion prestamos Nav -->
       
-      {% if request.user|user_belongs_to_group:'Director' %}
-        {% if request.user.is_authenticated %}
+      {% comment %} {% if request.user|user_belongs_to_group:'Director' %}
+        {% if request.user.is_authenticated %} {% endcomment %}
           <li class="nav-item">
             <a class="nav-link collapsed" href="{% url 'register_user' %}">
               <i class="bi bi-person"></i>
@@ -76,7 +76,7 @@
               <span>Modificar Rol</span>
             </a>
           </li><!-- End Profile Page Nav -->
-        {% endif %}
-      {% endif %}
+        {% comment %} {% endif %}
+      {% endif %} {% endcomment %}
     </ul>
 </aside><!-- End Sidebar-->

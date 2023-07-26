@@ -20,7 +20,7 @@ class libro(models.Model):
         return self.nombre
     
 class trabajo(models.Model):
-    titulo = models.CharField(max_length=50)
+    titulo = models.CharField(max_length=255)
     autor = models.CharField(max_length=50)
     palabras_clave = models.CharField(max_length=50)
     fecha = models.DateField()

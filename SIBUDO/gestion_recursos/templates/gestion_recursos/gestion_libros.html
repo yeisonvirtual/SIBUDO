@@ -28,27 +28,38 @@
 
             <p> Gestionar libros de la biblioteca </p>
 
-            <div class="col-md-1">
-
-              <a href="{% url 'Agregar libro' %}" class="btn btn-primary" style="margin-bottom: 8px;">Agregar</a>
-
-            </div>
+            <a href="{% url 'Agregar libro' %}" class="btn btn-primary" style="margin-bottom: 8px;">Agregar</a>
             
-            <form class="row g-2" method="POST" action="">
+            <form class="row g-3" method="POST" action="">
               
               {% csrf_token %}
-              
-              <div class="col-md-8">
+
+              <hr>
+
+              <div class="col-sm-2">
+                <select class="form-select" aria-label="Default select example" name="row">
+                  <option selected disabled>Seleccione</option>
+                  <option value="1">ID</option>
+                  <option value="2">Nombre</option>
+                  <option value="3">Autor</option>
+                  <option value="4">Año</option>
+                  <option value="5">ISBN</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+
+                <input type="text" class="form-control" name="search">
+                  
+              </div>
+
+              <div class="col-md-1">
 
                 <button type="submit" class="btn btn-primary">Buscar</button>
 
               </div>
 
-              <div class="col-md-6">
-
-                <input type="text" class="form-control" name="seach">
-                  
-              </div>
+              <hr>
 
             </form>
 
@@ -60,7 +71,7 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                  <th scope="col">Nombre</th>
+                    <th scope="col">Nombre</th>
                     <th scope="col">Autor(es)</th>
                     <th scope="col">Edicion</th>
                     <th scope="col">Año</th>
@@ -75,6 +86,7 @@
                   {% for libro in libros %}
 
                     <tr>
+
                       <th scope="row">{{ libro.id }}</th>
                       <td>{{ libro.nombre }}</td>
                       <td>{{ libro.autor }}</td>
@@ -99,6 +111,7 @@
                         <!-- url: libros/eliminar/<int:libro_id>/ -->
                         <a href="{% url 'Eliminar libro' libro.id %}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
                       </td>
+
                     </tr>
 
                   {% endfor %}              

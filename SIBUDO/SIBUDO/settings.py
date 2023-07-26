@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'authentication',
     'sanciones_estudiante',
     'gestion_prestamos',
-    'authentication',
     'gestion_usuarios',
 ]
 
@@ -87,7 +86,7 @@ WSGI_APPLICATION = 'SIBUDO.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sibudo',
+        'NAME': 'sibudoDev',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',

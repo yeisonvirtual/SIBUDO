@@ -1,0 +1,66 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% load bootstrap %}
+
+{% block title %} <title> Agregar Trabajo </title> {% endblock %}
+
+{% block content %}
+    
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Gestionar trabajos de grado</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">Gestion recursos</li>
+            <li class="breadcrumb-item">Trabajos de grado</li>
+            <li class="breadcrumb-item">Agregar trabajo de grado</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-4 offset-3">
+
+        <div class="card">
+          <div class="card-body">
+            
+            <h5 class="card-title">Agregar trabajo de grado</h5>
+
+            <!--si el registro se guardo-->
+            {% if valido %}
+
+              <div class="alert alert-success">El trabajo se guardó correctamente</div>
+
+            {% endif %}
+            
+            <!--si es formulario tiene errores-->
+            {% if form.errors %}
+
+              <p>Por favor revisa este campo</p>
+
+            {% endif %}
+
+            <form method="POST">
+              
+              {% csrf_token %}
+              
+              {{ form|bootstrap }}
+              
+              <button type="submit" class="btn btn-primary" style="margin: 20px;">Agregar</button>
+                    
+            </form>
+
+          </div>
+        </div>
+      
+      </div>
+    </div>
+  </section>
+
+</main><!-- End main -->
+
+{% endblock %}

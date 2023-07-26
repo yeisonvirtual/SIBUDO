@@ -7,8 +7,6 @@ from .views.views import user_table
 from . import views
 
 urlpatterns = [
-    path('', views.gestion_usuarios, name="Gestion_usuarios"),
-    path('editar_usuario/', views.editar_usuario, name="Editar_usuario"),
 
     path('<int:user_id>/<str:active_tab>/', user_profile, name='user_profile'),
     path('<int:user_id>/', user_profile, name='user_profile'),

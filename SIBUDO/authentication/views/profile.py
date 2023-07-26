@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from authentication.decorators import group_required
-from gestion_usuarios.models import Persona
+from gestion_usuarios.models import persona
 
 @login_required
 
@@ -15,7 +15,7 @@ def user_profile(request, user_id, active_tab='overview'):
     user_groups = user_profile.groups.all()
 
     try:
-        person_profile = Persona.objects.get(user=user_profile)
+        person_profile = persona.objects.get(user=user_profile)
 
         context = {
                 'active_tab': active_tab,
@@ -26,7 +26,7 @@ def user_profile(request, user_id, active_tab='overview'):
 
             }
         return render(request, 'authentication/profile/user_profile.html', context)
-    except Persona.DoesNotExist:
+    except persona.DoesNotExist:
         pass
 
     context = {

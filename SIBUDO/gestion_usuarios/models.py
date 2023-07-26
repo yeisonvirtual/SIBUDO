@@ -25,8 +25,8 @@ class persona(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = 'Persona'
-        verbose_name_plural = 'Personas'
+        verbose_name = 'persona'
+        verbose_name_plural = 'personas'
 
     def __str__(self):
         return self.nombre

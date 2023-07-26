@@ -3,7 +3,7 @@ from django.forms import widgets
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Persona
+from .models import persona
 from django.core.validators import RegexValidator
 from datetime import date
 
@@ -34,5 +34,5 @@ class Persona_Form(forms.ModelForm):
         return fecha_nacimiento
 
     class Meta:
-        model = Persona
+        model = persona
         fields = ['cedula', 'nombre', 'apellido', 'fecha_nacimiento', 'genero']
