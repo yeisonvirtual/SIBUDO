@@ -4,7 +4,7 @@ from django.db import models
 
 class UserProfileConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'user_management'
+    name = 'gestion_usuarios'
 
 class Persona(models.Model):
     cedula = models.IntegerField()

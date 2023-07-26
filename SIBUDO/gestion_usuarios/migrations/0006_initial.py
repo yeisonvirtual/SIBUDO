@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('user_management', '0005_delete_userprofile'),
+        ('gestion_usuarios', '0005_delete_userprofile'),
     ]
 
     operations = [

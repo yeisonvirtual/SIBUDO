@@ -42,4 +42,4 @@ def user_table(request):
         'groups': groups
     }
 
-    return render(request, "user_management/user_table.html", context)
+    return render(request, "gestion_usuarios/user_table.html", context)

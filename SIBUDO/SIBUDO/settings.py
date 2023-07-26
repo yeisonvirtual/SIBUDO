@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'SIBUDO_app',
     'authentication',
-    'user_management',
+    'gestion_usuarios',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'user_management.middleware.UserProfileAccessMiddleware',
+    'gestion_usuarios.middleware.UserProfileAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'SIBUDO.urls'

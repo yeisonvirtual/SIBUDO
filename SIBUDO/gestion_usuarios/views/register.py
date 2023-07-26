@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
-from user_management.forms import User_form, Persona_Form 
+from gestion_usuarios.forms import User_form, Persona_Form 
 
 class register_user(View):
     def get(self, request):
@@ -17,7 +17,7 @@ class register_user(View):
             'person_form' : person_form,
             'rol_aviable' : rol_aviable,
         }
-        return render(request, "user_management/register/register.html",context)
+        return render(request, "gestion_usuarios/register/register.html",context)
 
     def post(self, request):
         user_form = User_form(request.POST)
@@ -66,35 +66,7 @@ class register_user(View):
                 user.groups.add(group)
                 messages.success(request, 'Registro exitoso')
 
-            return render(request, "user_management/register/register.html",context)
+            return render(request, "gestion_usuarios/register/register.html",context)
         else:
-            return render(request, "user_management/register/register.html",context)
+            return render(request, "gestion_usuarios/register/register.html",context)
         
-
-#este es el api form de prueba para registrar los datos completos de un usuaario
-#hay que crear el modeld de la tabal e integrarlo con el registro actual
-
-# @api_view(['POST', 'GET'])
-# def register_user2(request):
-    
-#     # if request.method == 'POST':
-#     if request.method == 'POST' or request.method == 'GET':
-#         form = register_user_form(request.POST)
-#         if form.is_valid():
-#             # Obtener los datos del formulario
-#             first_name = form.cleaned_data['first_name']
-#             last_name = form.cleaned_data['last_name']
-#             email = form.cleaned_data['email']
-#             password = form.cleaned_data['password']
-#             date_of_birth = form.cleaned_data['date_of_birth']
-#             gender = form.cleaned_data['gender']
-            
-#             # Realizar la lógica de registro de usuario aquí
-#             # Por ejemplo, puedes crear una instancia de tu modelo de Usuario y guardarla en la base de datos
-            
-#             # Devolver una respuesta exitosa
-#             return render(request, "SIBUDO_app/thanks.html")
-#         else:
-#             # Devolver una respuesta de error si el formulario no es válido
-#             my_form = register_user_form()
-#         return render(request, "user_management/register_form.html", {"form": my_form})

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from authentication.decorators import group_required
-from user_management.models import Persona
+from gestion_usuarios.models import Persona
 
 @login_required
 

@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
-        ('user_management', '0002_delete_director'),
+        ('gestion_usuarios', '0002_delete_director'),
     ]
 
     operations = [
