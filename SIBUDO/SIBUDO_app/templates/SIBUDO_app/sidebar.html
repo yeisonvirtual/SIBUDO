@@ -10,23 +10,8 @@
         </a>
       </li><!-- End Index Nav -->
       <!-- Recursos -->
-      <li class="nav-item">
-        <a class="nav-link {% if request.path|slice:':10' != '/recursos/' %} collapsed {% endif %}" data-bs-target="#recursos-nav" data-bs-toggle="collapse" href="#">
-          <i class=" bi bi-book"></i><span>Recursos</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="recursos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="{% url 'Buscar libros' %}">
-              <i class="bi bi-circle"></i><span>Libros</span>
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'Buscar trabajos' %}">
-              <i class="bi bi-circle"></i><span>Trabajos de grado</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Recursos Nav -->
+      
+      {% if request.user|user_belongs_to_group:'Director' or   request.user|user_belongs_to_group:'Bibliotecario'%}
       <!-- Gestion -->
       <li class="nav-item">
         <a class="nav-link {% if request.path|slice:':18' != '/gestion_recursos/' %} collapsed {% endif %}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
@@ -45,21 +30,8 @@
           </li>
         </ul>
       </li><!-- End Gestion recursos Nav -->
-{% comment %}   
-      <li class="nav-item">
-        <a class="nav-link {% if request.path != '/gestion_usuarios/' %} collapsed {% endif %}" href="{% url 'Gestion_usuarios' %}">
-          <i class="bi bi-person"></i>
-          <span>Gestion usuarios</span>
-        </a>
-      </li><!-- End Gestion usuarios Nav --> {% endcomment %}
-  
-      <li class="nav-item">
-        <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
-          <i class="bi bi-stoplights"></i>
-          <span>Sanciones</span>
-        </a>
-      </li><!-- sanciones -->
-  
+      
+    
       <li class="nav-item">
         <a class="nav-link {% if request.path|slice:':18' != '/gestion_prestamos/' %} collapsed {% endif %}" data-bs-target="#prestamos-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-arrow-up"></i><span>Prestamos</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -77,9 +49,33 @@
           </li>
         </ul>
       </li><!-- End Gestion prestamos Nav -->
-      
-      {% comment %} {% if request.user|user_belongs_to_group:'Director' %}
-        {% if request.user.is_authenticated %} {% endcomment %}
+      {% endif %}
+      {% if request.user|user_belongs_to_group:'Estudiante'%}
+      <li class="nav-item">
+        <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
+          <i class="bi bi-stoplights"></i>
+          <span>Sanciones</span>
+        </a>
+      </li><!-- sanciones -->
+      <li class="nav-item">
+        <a class="nav-link {% if request.path|slice:':10' != '/recursos/' %} collapsed {% endif %}" data-bs-target="#recursos-nav" data-bs-toggle="collapse" href="#">
+          <i class=" bi bi-book"></i><span>Recursos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="recursos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'Buscar libros' %}">
+              <i class="bi bi-circle"></i><span>Libros</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Buscar trabajos' %}">
+              <i class="bi bi-circle"></i><span>Trabajos de grado</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Recursos Nav -->
+      {% endif %}
+      {% if request.user|user_belongs_to_group:'Director' %}
           <li class="nav-item">
             <a class="nav-link collapsed" href="{% url 'register_user' %}">
               <i class="bi bi-person"></i>
@@ -93,7 +89,7 @@
               <span>Modificar Rol</span>
             </a>
           </li><!-- End Profile Page Nav -->
-        {% comment %} {% endif %}
-      {% endif %} {% endcomment %}
+    
+      {% endif %}
     </ul>
 </aside><!-- End Sidebar-->
