@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'sanciones_estudiante',
     'gestion_prestamos',
     'gestion_usuarios',
+    'recursos',
 ]
 
 MIDDLEWARE = [

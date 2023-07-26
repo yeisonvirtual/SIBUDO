@@ -1,0 +1,112 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% block title %} <title> Buscar libros </title> {% endblock %}
+
+{% block content %}
+    
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Buscar libros</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">Recursos</li>
+            <li class="breadcrumb-item">Libros</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Libros</h5>
+
+            <p> Buscar libros de la biblioteca </p>
+            
+            <form class="row g-3" method="POST" action="">
+              
+              {% csrf_token %}
+
+              <hr>
+
+              <div class="col-sm-2">
+                <select class="form-select" aria-label="Default select example" name="row">
+                  <option selected disabled>Seleccione</option>
+                  <option value="1">ID</option>
+                  <option value="2">Nombre</option>
+                  <option value="3">Autor</option>
+                  <option value="4">Año</option>
+                  <option value="5">ISBN</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+
+                <input type="text" class="form-control" name="search">
+                  
+              </div>
+
+              <div class="col-md-1">
+
+                <button type="submit" class="btn btn-primary">Buscar</button>
+
+              </div>
+
+              <hr>
+
+            </form>
+
+            <!-- si hay libros -->
+            {% if libros %}
+
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Autor(es)</th>
+                    <th scope="col">Edicion</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">ISBN</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <!-- recorre todos los libros -->
+                  {% for libro in libros %}
+
+                    <tr>
+
+                      <th scope="row">{{ libro.id }}</th>
+                      <td>{{ libro.nombre }}</td>
+                      <td>{{ libro.autor }}</td>
+                      <td>{{ libro.edicion }}</td>
+                      <td>{{ libro.anio }}</td>
+                      <td>{{ libro.isbn }}</td>
+                      
+                    </tr>
+
+                  {% endfor %}              
+
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}
