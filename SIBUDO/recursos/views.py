@@ -1,5 +1,10 @@
 from django.shortcuts import render, redirect
 from gestion_recursos.models import libro, trabajo
+from authentication.decorators import group_required
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Estudiante']) 
 
 # Create your views here.
 def buscar_libros(request):
@@ -49,7 +54,6 @@ def buscar_libros(request):
     
     # si es una consulta de tipo get muestra la plantilla sin la tabla
     return render(request, "recursos/buscar_libros.html", {'nombre':user_name})
-
 
 def buscar_trabajos(request):
     user_name = request.user.username

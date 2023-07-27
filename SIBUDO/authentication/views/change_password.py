@@ -3,10 +3,10 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import update_session_auth_hash
-from django.views.decorators.csrf import csrf_exempt
 from gestion_usuarios.models import persona
+from django.contrib.auth.decorators import login_required
 
-@csrf_exempt
+@login_required(login_url='/authentication/error_404/')
 def change_password_api(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -15,7 +15,7 @@ def change_password_api(request):
         try:
             person_profile = persona.objects.get(user=user_profile)
         except persona.DoesNotExist:
-            pass
+            person_profile = None
 
 
         if form.is_valid():

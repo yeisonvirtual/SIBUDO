@@ -1,6 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from ..models import persona
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.decorators import login_required
+from authentication.decorators import group_required
+
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director']) 
 
 def user_table(request):
     users = User.objects.all()
@@ -39,7 +44,7 @@ def user_table(request):
 
     context = {
         'user_data': user_data,
-        'groups': groups
+        'groups': [''] + groups
     }
 
     return render(request, "gestion_usuarios/user_table.html", context)
