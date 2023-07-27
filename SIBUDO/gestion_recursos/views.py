@@ -178,6 +178,7 @@ def editar_libro(request, libro_id):
                 book.save()
                 number.save()
                 disponibilidad_recurso.save()
+
                 return render(request, "gestion_recursos/agregar_libro.html", {'form': form, 'valido': 1})
             
             except:
@@ -301,6 +302,11 @@ def agregar_trabajo(request):
                 # se guarda el registro
                 c_trabajo.save()
 
+                # Agregando a la tabla Gestion_Prestamo_Recurso_Disponible
+                now = datetime.now()
+                disponible_a_prestamo = Recurso_Disponible(id_recurso=id_nuevo.id, tipo_recurso=2, n_disponibles=f_cantidad, tipo_prestamo=0, created=now, updated=now)
+                disponible_a_prestamo.save()
+
                 # limpia el formulario
                 form = formulario_libro()
 
@@ -336,17 +342,29 @@ def editar_trabajo(request, trabajo_id):
 
         if form.is_valid():
             #recupero los datos
+
+            #Verifica cantidad vieja
+            number = cantidad_trabajo.objects.get(trabajo=trabajo_id)
+            cantidad_vieja:int = number.cantidad
+
             t_grado.titulo = request.POST.get("titulo")
             t_grado.autor = request.POST.get("autor")
             t_grado.palabras_clave = request.POST.get("palabras_clave")
             t_grado.fecha = request.POST.get("fecha")
             number.cantidad = request.POST.get("cantidad")
+            cantidad_nueva:int = int(number.cantidad)
+
+            # Cambiar disponibilidad
+            disponibilidad_recurso = Recurso_Disponible.objects.get(Q(tipo_recurso= 2) & Q(id_recurso=trabajo_id))
+            dispo = ((disponibilidad_recurso.n_disponibles) + ((cantidad_nueva) - (cantidad_vieja)))
+            disponibilidad_recurso.n_disponibles = dispo
 
             try:
                 # se actualizan los registros
                 t_grado.save()
                 number.save()
-
+                disponibilidad_recurso.save()
+                
                 return render(request, "gestion_recursos/agregar_trabajo.html", {'form': form, 'valido': 1})
             
             except:
