@@ -11,7 +11,7 @@ urlpatterns = [
     path('<int:user_id>/<str:active_tab>/', user_profile, name='user_profile'),
     path('<int:user_id>/', user_profile, name='user_profile'),
 
-    path('', register_user.as_view(), name="register_user"),
+    path('', register_user, name="register_user"),
 
     path('api/change_password/', change_password_api, name='change_password_api'),
     path('tabla_de_usuarios', user_table, name='user_table'),

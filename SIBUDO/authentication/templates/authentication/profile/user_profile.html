@@ -53,39 +53,23 @@
               <!-- Bordered Tabs -->
               <ul class="nav nav-tabs nav-tabs-bordered">
 
-                {% if request.user|user_belongs_to_group:'Director' %}
-                  <li class="nav-item">
-                    <button class="nav-link {% if active_tab == 'overview' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-overview">Perfil</button>
-                  </li>
+                <li class="nav-item">
+                  <button class="nav-link {% if active_tab == 'overview' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-overview">Perfil</button>
+                </li>
 
-                {% else %}
-                  <li class="nav-item">
-                    <button class="nav-link {% if active_tab == 'overview' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-overview">Perfil</button>
-                  </li>
-
-                  <li class="nav-item">
-                    <button class="nav-link {% if active_tab == 'change_password' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar contraseña</button>
-                  </li> 
-                {% endif %}
-
-                
+                <li class="nav-item">
+                  <button class="nav-link {% if active_tab == 'change_password' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar contraseña</button>
+                </li> 
 
               </ul>
 
               <div class="tab-content pt-2">
-                {% if request.user|user_belongs_to_group:'Director' %}
-                  <div class="tab-pane fade  {% if active_tab == 'overview' %}show active{% endif %}" id="profile-overview">
-                    {% include "authentication/profile/overview.html" %}
-                  </div>
-
-                {% else %}
-                  <div class="tab-pane fade  {% if active_tab == 'overview' %}show active{% endif %}" id="profile-overview">
-                    {% include "authentication/profile/overview.html" %}
-                  </div>
-                  <div class="tab-pane fade {% if active_tab == 'change_password' %}show active{% endif %}" id="profile-change-password">
-                    {% include "authentication/profile/change_password.html" %}
-                  </div>
-                {% endif %} 
+                <div class="tab-pane fade  {% if active_tab == 'overview' %}show active{% endif %}" id="profile-overview">
+                  {% include "authentication/profile/overview.html" %}
+                </div>
+                <div class="tab-pane fade {% if active_tab == 'change_password' %}show active{% endif %}" id="profile-change-password">
+                  {% include "authentication/profile/change_password.html" %}
+                </div>
                 
               </div>
             </div>

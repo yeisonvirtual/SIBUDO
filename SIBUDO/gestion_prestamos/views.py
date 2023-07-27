@@ -10,9 +10,12 @@ from gestion_recursos.models import cantidad_libro
 from gestion_recursos.models import trabajo
 from gestion_recursos.models import cantidad_trabajo
 from .forms import DatePicker, Penalty_DatePicker, CI_Form, Selector_Recurso_Form
-
-# Context processor
 from .estudiante import Estudiante
+from authentication.decorators import group_required
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director','Estudiante', 'Bibliotecario']) 
 
 # Create your views here.
 def prestamos(request):

@@ -9,7 +9,7 @@ class UserProfileConfig(AppConfig):
     name = 'gestion_usuarios'
 
 class persona(models.Model):
-    cedula = models.IntegerField()
+    cedula = models.IntegerField(unique=True)
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     fecha_nacimiento = models.DateField()

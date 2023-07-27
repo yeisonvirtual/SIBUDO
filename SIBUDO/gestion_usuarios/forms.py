@@ -13,6 +13,15 @@ class User_form(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'correo', 'password1', 'password2']
+        
+    def clean_correo(self):
+        correo = self.cleaned_data.get('correo')
+
+        # Comprobar si ya existe un usuario con el mismo correo
+        if User.objects.filter(email=correo).exists():
+            raise forms.ValidationError("Este correo ya está en uso. Por favor, elige otro.")
+
+        return correo
 
 class Persona_Form(forms.ModelForm):
 
