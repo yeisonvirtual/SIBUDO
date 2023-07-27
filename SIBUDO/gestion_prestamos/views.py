@@ -10,6 +10,7 @@ from gestion_recursos.models import cantidad_libro
 from gestion_recursos.models import trabajo
 from gestion_recursos.models import cantidad_trabajo
 from .forms import DatePicker, Penalty_DatePicker, CI_Form, Selector_Recurso_Form
+from authentication.decorators import group_required
 
 # Context processor
 from .estudiante import Estudiante

@@ -2,6 +2,11 @@ from django.shortcuts import render, redirect
 from gestion_recursos.forms import formulario_libro, formulario_trabajo
 from .models import libro, cantidad_libro, trabajo, cantidad_trabajo
 
+# Import para trabajar con la tabla gestion_prestamos_recurso_disponible
+from gestion_prestamos.models import Recurso_Disponible
+from django.db.models import Q
+from datetime import datetime
+
 # Create your views here.
 
 def gestion_libros(request):
@@ -110,6 +115,11 @@ def agregar_libro(request):
                 # se guarda el registro
                 c_libro.save()
 
+                # Agregando a la tabla Gestion_Prestamo_Recurso_Disponible
+                now = datetime.now()
+                disponible_a_prestamo = Recurso_Disponible(id_recurso=id_nuevo.id, tipo_recurso=1, n_disponibles=f_cantidad, tipo_prestamo=1, created=now, updated=now)
+                disponible_a_prestamo.save()
+
                 # limpia el formulario
                 form = formulario_libro()
 
@@ -144,18 +154,30 @@ def editar_libro(request, libro_id):
 
         if form.is_valid():
             #recupero los datos
+
+            #Verifica cantidad vieja
+            number = cantidad_libro.objects.get(libro=libro_id)
+            cantidad_vieja:int = number.cantidad
+
             book.nombre = request.POST.get("nombre")
             book.autor = request.POST.get("autor")
             book.edicion = request.POST.get("edicion")
             book.anio = request.POST.get("anio")
             book.isbn = request.POST.get("isbn")
             number.cantidad = request.POST.get("cantidad")
+            cantidad_nueva:int = int(number.cantidad)
+
+
+            # Cambiar disponibilidad
+            disponibilidad_recurso = Recurso_Disponible.objects.get(Q(tipo_recurso= 1) & Q(id_recurso=libro_id))
+            dispo = ((disponibilidad_recurso.n_disponibles) + ((cantidad_nueva) - (cantidad_vieja)))
+            disponibilidad_recurso.n_disponibles = dispo
 
             try:
                 # se actualizan los registros
                 book.save()
                 number.save()
-
+                disponibilidad_recurso.save()
                 return render(request, "gestion_recursos/agregar_libro.html", {'form': form, 'valido': 1})
             
             except:
