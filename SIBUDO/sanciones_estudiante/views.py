@@ -3,7 +3,7 @@ from authentication.decorators import group_required
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/authentication/error_404/')
-@group_required(['Director', 'Bibliotecario']) 
+@group_required(['Estudiante']) 
 
 def ver_sanciones_estudiante(request):
     return render(request, 'sanciones_estudiante/ver_sanciones_estudiante.html', {})

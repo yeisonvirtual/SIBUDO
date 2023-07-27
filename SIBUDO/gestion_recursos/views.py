@@ -24,9 +24,9 @@ def gestion_libros(request):
         search = request.POST.get('search')
 
         # si el campo de busqueda tiene contenido
-        if search:
+        if search and row!=0:
 
-            if row == '1':
+            if row == '1'  and search.isdigit():
                 # filtra por id
                 all_libros = libro.objects.filter(id=search)
 
@@ -114,6 +114,7 @@ def agregar_libro(request):
                 libro_nuevo.save()
                 # se busca el nuevo libro para obtener el id
                 id_nuevo = libro.objects.get(isbn=f_isbn)
+                # id_nuevo = libro_nuevo.id
                 # se crea un modelo cantidad_libro
                 c_libro = cantidad_libro(cantidad=f_cantidad, libro=id_nuevo)
                 # se guarda el registro
@@ -217,9 +218,10 @@ def gestion_trabajos(request):
         search = request.POST.get('search')
 
         # si el campo de busqueda tiene contenido
-        if search:
+        if search and row!=0:
 
-            if row == '1':
+            if row == '1' and search.isdigit():
+     
                 # filtra por id
                 all_trabajos = trabajo.objects.filter(id=search)
 
@@ -255,7 +257,7 @@ def gestion_trabajos(request):
                 for item in all_trabajos:
                     all_cantidad.append(cantidad_trabajo.objects.get(trabajo_id=item.id))
 
-            if row == '5':
+            else:
                 # filtra por autor
                 all_trabajos = trabajo.objects.filter(fecha__icontains=search)
 
