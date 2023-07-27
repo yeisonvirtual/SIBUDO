@@ -8,30 +8,66 @@
     
 <main id="main" class="main">
 
-  {% comment %} <div class="pagetitle">
+  <div class="pagetitle">
     <h1>SIBUDO</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{% url 'Index' %}"> Inicio </a></li>
         </ol>
       </nav>
-  </div><!-- End Page Title --> {% endcomment %}
+  </div><!-- End Page Title --> 
+
+  
 
   <section class="section">
 
     <div class="row align-items-top">
-      <div class="col-10 offset-1" >
+    
+      <div class="col-8 offset-2" >
         <!-- Default Card -->
         <div class="card">
           <div class="card-body">
+        
               <h5 class="card-title">Bienvenido {{ nombre }}</h5>
               Sitio web de la biblioteca universitaria.
           </div>
         </div><!-- End Default Card -->
       </div>
+      
     </div>
-
   </section>
+  <section lass="section">
+    <div class="col-6 offset-3" >
+      <!-- Default Card -->
+      <div class="card">
+        <div class="card-body">
+          <div class="col-6 offset-4">
+            <h5 class="card-title">¿Quienes Somos?</h5>
+          </div>
+            
+            <div class="col-6 offset-3">
+              <img src="{% static 'SIBUDO_app/assets/img/logoYEL.png' %}" alt="logo YEL" style="max-width: 100%;">
+            </div>
+            <p>
+              <br>
+              Somo un grupo de estudiande de Ingieneria en computacion conformados por:
+              <div class="d-flex justify-content-center align-items-center ">
+                <a href="https://github.com/EulisesBrazon" class="btn btn-secondary mx-3" target="_blank">Eulises Brazon</a>
+            
+                <a href="https://github.com/MarquezLuis96" class="btn btn-secondary mx-3" target="_blank">Luis Marquez</a>
+    
+                <a href="https://github.com/yeisonvirtual" class="btn btn-secondary mx-3" target="_blank">Yeison Rojas</a>
+                <br>
+              </div>
+
+              
+              Este es un proyecto realizado en django, como parte de la asignatura desarrollo de software avenzado.
+            </p>
+        </div>
+      </div>
+  </section>
+ 
+  </div>
 
 </main><!-- End #main -->
 

@@ -78,14 +78,14 @@
       {% if request.user|user_belongs_to_group:'Director' %}
           <li class="nav-item">
             <a class="nav-link collapsed" href="{% url 'register_user' %}">
-              <i class="bi bi-person"></i>
+              <i class="bi bi-journal-text"></i>
               <span>Registrar usuario</span>
             </a>
           </li><!-- End Profile Page Nav -->
 
           <li class="nav-item">
             <a class="nav-link collapsed" href="{% url 'user_table' %}">
-              <i class="bi bi-person"></i>
+              <i class="bi bi-card-list"></i>
               <span>Modificar Rol</span>
             </a>
           </li><!-- End Profile Page Nav -->

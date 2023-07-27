@@ -1,14 +1,11 @@
 from django.shortcuts import render
-# from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, get_object_or_404, redirect
-from authentication.decorators import group_required
+from django.shortcuts import render, get_object_or_404
 from gestion_usuarios.models import persona
+from django.contrib.auth.decorators import login_required
 
-@login_required
 
-# @group_required(['Director','Estudiante', 'Bibliotecario']) 
+@login_required(login_url='/authentication/error_404/')
 def user_profile(request, user_id, active_tab='overview'):
     # Obtener el usuario por su ID
     user_profile = get_object_or_404(User, id=user_id)

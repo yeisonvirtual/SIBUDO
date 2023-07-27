@@ -7,7 +7,7 @@ class libro(models.Model):
     autor = models.CharField(max_length=50)
     edicion = models.IntegerField()
     anio = models.IntegerField()
-    isbn = models.CharField(max_length=50)
+    isbn = models.CharField(max_length=50,unique=True)
     disponible = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
