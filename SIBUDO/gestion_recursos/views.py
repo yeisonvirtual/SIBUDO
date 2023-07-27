@@ -1,14 +1,11 @@
 from django.shortcuts import render, redirect
 from gestion_recursos.forms import formulario_libro, formulario_trabajo
 from .models import libro, cantidad_libro, trabajo, cantidad_trabajo
-<<<<<<< HEAD
-=======
 
 # Import para trabajar con la tabla gestion_prestamos_recurso_disponible
 from gestion_prestamos.models import Recurso_Disponible
 from django.db.models import Q
 from datetime import datetime
->>>>>>> dev
 
 # Create your views here.
 
@@ -180,10 +177,7 @@ def editar_libro(request, libro_id):
                 # se actualizan los registros
                 book.save()
                 number.save()
-<<<<<<< HEAD
-=======
                 disponibilidad_recurso.save()
->>>>>>> dev
 
                 return render(request, "gestion_recursos/agregar_libro.html", {'form': form, 'valido': 1})
             
@@ -308,14 +302,11 @@ def agregar_trabajo(request):
                 # se guarda el registro
                 c_trabajo.save()
 
-<<<<<<< HEAD
-=======
                 # Agregando a la tabla Gestion_Prestamo_Recurso_Disponible
                 now = datetime.now()
                 disponible_a_prestamo = Recurso_Disponible(id_recurso=id_nuevo.id, tipo_recurso=2, n_disponibles=f_cantidad, tipo_prestamo=0, created=now, updated=now)
                 disponible_a_prestamo.save()
 
->>>>>>> dev
                 # limpia el formulario
                 form = formulario_libro()
 
@@ -351,39 +342,29 @@ def editar_trabajo(request, trabajo_id):
 
         if form.is_valid():
             #recupero los datos
-<<<<<<< HEAD
-=======
 
             #Verifica cantidad vieja
             number = cantidad_trabajo.objects.get(trabajo=trabajo_id)
             cantidad_vieja:int = number.cantidad
 
->>>>>>> dev
             t_grado.titulo = request.POST.get("titulo")
             t_grado.autor = request.POST.get("autor")
             t_grado.palabras_clave = request.POST.get("palabras_clave")
             t_grado.fecha = request.POST.get("fecha")
             number.cantidad = request.POST.get("cantidad")
-<<<<<<< HEAD
-=======
             cantidad_nueva:int = int(number.cantidad)
 
             # Cambiar disponibilidad
             disponibilidad_recurso = Recurso_Disponible.objects.get(Q(tipo_recurso= 2) & Q(id_recurso=trabajo_id))
             dispo = ((disponibilidad_recurso.n_disponibles) + ((cantidad_nueva) - (cantidad_vieja)))
             disponibilidad_recurso.n_disponibles = dispo
->>>>>>> dev
 
             try:
                 # se actualizan los registros
                 t_grado.save()
                 number.save()
-<<<<<<< HEAD
-
-=======
                 disponibilidad_recurso.save()
                 
->>>>>>> dev
                 return render(request, "gestion_recursos/agregar_trabajo.html", {'form': form, 'valido': 1})
             
             except:
