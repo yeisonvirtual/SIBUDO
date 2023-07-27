@@ -288,7 +288,7 @@ def agregar_trabajo(request):
                 c_trabajo.save()
 
                 # limpia el formulario
-                form = formulario_libro()
+                form = formulario_trabajo()
 
                 return render(request, "gestion_recursos/agregar_trabajo.html", {'form': form, 'valido': 1})
             

@@ -5,7 +5,7 @@ from authentication.decorators import group_required
 
 # Create your views here.
 
-@group_required(['Estudiante'])
+@group_required(['Estudiantes'])
 def buscar_libros(request):
     user_name = request.user.username
 
@@ -55,7 +55,7 @@ def buscar_libros(request):
     return render(request, "recursos/buscar_libros.html", {'nombre':user_name})
 
 
-@group_required(['Estudiante'])
+@group_required(['Estudiantes'])
 def buscar_trabajos(request):
     user_name = request.user.username
 

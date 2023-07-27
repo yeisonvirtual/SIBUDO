@@ -50,7 +50,7 @@
         </ul>
       </li><!-- End Gestion prestamos Nav -->
       {% endif %}
-      {% if request.user|user_belongs_to_group:'Estudiante'%}
+      {% if request.user|user_belongs_to_group:'Estudiantes'%}
       <li class="nav-item">
         <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
           <i class="bi bi-stoplights"></i>
