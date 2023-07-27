@@ -11,17 +11,24 @@ from gestion_recursos.models import trabajo
 from gestion_recursos.models import cantidad_trabajo
 from .forms import DatePicker, Penalty_DatePicker, CI_Form, Selector_Recurso_Form
 from authentication.decorators import group_required
+from django.contrib.auth.decorators import login_required
 
 # Context processor
 from .estudiante import Estudiante
 
 # Create your views here.
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def prestamos(request):
     return render(request, "gestion_prestamos/prestamos.html", {})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def gestion_prestamos(request):
     return render(request, "gestion_prestamos/gestion_prestamos.html", {})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def generar_prestamo(request):
     estudiante = Estudiante(request)
     ci_form = CI_Form(request.POST)
@@ -173,6 +180,8 @@ def generar_prestamo(request):
 
     return render(request, "gestion_prestamos/generar_prestamo.html", {'ci_form':ci_form, 'hay_estudiante':hay_estudiante})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def guardar_prestamo(request, id_est, tipo_rec, id_rec):
     estudiante = persona.objects.get(id=id_est)
     if tipo_rec == 1:
@@ -262,6 +271,8 @@ def guardar_prestamo(request, id_est, tipo_rec, id_rec):
 
     return render(request, "gestion_prestamos/guardar_prestamo.html", {'tipo_rec':tipo_rec, 'disponibilidad':disponibilidad, 'recurso':recurso,'today':today, 'datePicker_form':datePicker_form, 'estudiante':estudiante, 'recurso':recurso})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def recibir_prestamo(request,id_prestamo):
     # Obteniendo los modelos que se van a utilizar
     mi_prestamo = Prestamo.objects.get(id=id_prestamo)
@@ -337,6 +348,8 @@ def recibir_prestamo(request,id_prestamo):
     
     return render(request, "gestion_prestamos/recibir_prestamo.html", {'mi_prestamo':mi_prestamo, 'mi_persona':mi_persona, 'mi_recurso':mi_recurso})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def mensaje_resultado(request, id_prestamo):
     titulo = ''
     sub_titulo = ''
@@ -344,6 +357,8 @@ def mensaje_resultado(request, id_prestamo):
     icon = 0
     return render(request, "gestion_prestamos/mensaje_resultado.html", {'titulo':titulo, 'sub_titulo':sub_titulo, 'mensaje':mensaje, 'icon':icon})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def editar_prestamo(request, id_prestamo):
     # Obteniendo los modelos que se van a utilizar
     mi_prestamo = Prestamo.objects.get(id=id_prestamo)
@@ -379,6 +394,8 @@ def editar_prestamo(request, id_prestamo):
 
     return render(request, "gestion_prestamos/editar_prestamo.html", {'mi_date_form': mi_date_form, 'mi_prestamo':mi_prestamo, 'mi_persona':mi_persona, 'mi_recurso':mi_recurso, 'dev_date':dev_date})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def buscar_prestamo(request):
     prestamos_a_nd = Prestamo.objects.filter(Q(estado_prestamo=1) | Q(estado_prestamo=2) | Q(estado_prestamo=3))
     list_estud = [None]
@@ -397,9 +414,13 @@ def buscar_prestamo(request):
             list_tipo_p.append('Interno')
     return render(request, "gestion_prestamos/buscar_prestamo.html", {'prestamos_a_nd':prestamos_a_nd, 'list_estud':list_estud, 'list_tipo_p':list_tipo_p})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def gestion_sanciones(request):
     return render(request, "gestion_prestamos/gestion_sanciones.html", {})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def generar_sancion(request):
     elegibles_a_sancion = Prestamo.objects.filter(estado_prestamo=3)
     list_estud = [None]
@@ -419,6 +440,8 @@ def generar_sancion(request):
         
     return render(request, "gestion_prestamos/generar_sancion.html", {'elegibles_a_sancion':elegibles_a_sancion, 'list_estud':list_estud, 'list_tipo_p':list_tipo_p})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def sancionar(request, id_prestamo):
     # Método GET
     # Obteniendo los datos para poder generar la sancion
@@ -525,6 +548,8 @@ def sancionar(request, id_prestamo):
     # Se retorna la vista del método GET
     return render(request, "gestion_prestamos/sancionar.html", {"mi_prestamo":mi_prestamo, "mi_persona":mi_persona, "mi_recurso":mi_recurso, "today":today, 'penalty_date_form':penalty_date_form})
 
+@login_required(login_url='/authentication/error_404/')
+@group_required(['Director', 'Bibliotecario'])
 def visualizar_sanciones(request):
 
     #listas que ayudan a mostrar datos en el front
