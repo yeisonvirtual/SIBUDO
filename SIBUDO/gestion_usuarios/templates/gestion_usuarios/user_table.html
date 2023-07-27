@@ -1,0 +1,79 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% block title %} <title> Gestionar usuarios </title> {% endblock %}
+
+{% block content %}
+    
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Gestionar usuarios</h1>
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">Gestion usuarios</li>
+          </ol>
+        </nav>
+      </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Usuarios</h5>
+
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                  <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Cedula</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Apellido</th>
+                      <th scope="col">Usuario</th>
+                      <th scope="col">Rol</th>
+                      <th scope="col">Estado</th>
+                      <th scope="col">Opciones</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for user_info in user_data %}
+                  <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ user_info.cedula }}</td>
+                      <td>{{ user_info.nombre }}</td>
+                      <td>{{ user_info.apellido }}</td>
+                      <td>{{ user_info.username }}</td>
+                      <td>{{ user_info.rol }}</td>
+                      <td>{{ user_info.estado }}</td>
+                      <td>
+                        <form method="post">
+                          {% csrf_token %}
+                          <input type="hidden" name="user_id" value="{{ user_info.user_id }}">
+                          <select name="role">
+                              {% for group in groups %}
+                                  <option value="{{ group }}" {% if group == user_info.selected_role %}selected{% endif %}>{{ group }}</option>
+                              {% endfor %}
+                          </select>
+                          <button type="submit">Modificar Rol</button>
+                        </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}
