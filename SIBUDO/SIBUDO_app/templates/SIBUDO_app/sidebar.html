@@ -1,0 +1,95 @@
+{% load custom_tags %}
+
+<aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link {% if request.path != '/' %} collapsed {% endif %}" href="{% url 'Index' %}">
+          <i class="bi bi-grid"></i>
+          <span> Inicio </span>
+        </a>
+      </li><!-- End Index Nav -->
+      <!-- Recursos -->
+      
+      {% if request.user|user_belongs_to_group:'Director' or   request.user|user_belongs_to_group:'Bibliotecario'%}
+      <!-- Gestion -->
+      <li class="nav-item">
+        <a class="nav-link {% if request.path|slice:':18' != '/gestion_recursos/' %} collapsed {% endif %}" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Gestion recursos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'Gestion libros' %}">
+              <i class="bi bi-circle"></i><span>Libros</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Gestion trabajos' %}">
+              <i class="bi bi-circle"></i><span>Trabajos de grado</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Gestion recursos Nav -->
+      
+    
+      <li class="nav-item">
+        <a class="nav-link {% if request.path|slice:':18' != '/gestion_prestamos/' %} collapsed {% endif %}" data-bs-target="#prestamos-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-arrow-up"></i><span>Prestamos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="prestamos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'Gestion_Prestamos' %}">
+              <i class="bi bi-circle"></i><span>Gestion de prestamos</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Gestion_Sanciones' %}">
+              <i class="bi bi-circle"></i><span>Gestion de Sanciones</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Gestion prestamos Nav -->
+      {% endif %}
+      {% if request.user|user_belongs_to_group:'Estudiante'%}
+      <li class="nav-item">
+        <a class="nav-link {% if request.path != '/sanciones_estudiante/' %} collapsed {% endif %}" href="{% url 'Sanciones_Estudiante' %}">
+          <i class="bi bi-stoplights"></i>
+          <span>Sanciones</span>
+        </a>
+      </li><!-- sanciones -->
+      <li class="nav-item">
+        <a class="nav-link {% if request.path|slice:':10' != '/recursos/' %} collapsed {% endif %}" data-bs-target="#recursos-nav" data-bs-toggle="collapse" href="#">
+          <i class=" bi bi-book"></i><span>Recursos</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="recursos-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'Buscar libros' %}">
+              <i class="bi bi-circle"></i><span>Libros</span>
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'Buscar trabajos' %}">
+              <i class="bi bi-circle"></i><span>Trabajos de grado</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Recursos Nav -->
+      {% endif %}
+      {% if request.user|user_belongs_to_group:'Director' %}
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'register_user' %}">
+              <i class="bi bi-person"></i>
+              <span>Registrar usuario</span>
+            </a>
+          </li><!-- End Profile Page Nav -->
+
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'user_table' %}">
+              <i class="bi bi-person"></i>
+              <span>Modificar Rol</span>
+            </a>
+          </li><!-- End Profile Page Nav -->
+    
+      {% endif %}
+    </ul>
+</aside><!-- End Sidebar-->

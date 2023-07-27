@@ -1,0 +1,102 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% block title %} <title> Home </title> {% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+    
+  <section class="section">
+    <div class="row">
+      <div class="col-6 offset-3">
+
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style="text-align: center;">Resgistrar Usuario</h5>
+              <p style="text-align: center;">Favor de ingresar los datos del nuevo usuario</p>
+              <br>
+          <form method="post">
+            {% csrf_token %}
+            <div class="row justify-content-center align-items-center m-3">
+              <div class="col-12 text-center ">
+                <label for="id_role" class="form-label ">Registrar Como:</label>
+                <select name="role" id="id_role">
+                  {% for rol in rol_aviable %}
+                  <option value="{{ rol }}">{{ rol }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>   
+          
+            {% for field in person_form.visible_fields %}
+              <div class="form-group">
+                <div class="row justify-content-center align-items-center m-3">
+                  <div class="col-12 text-center">
+                    <label class="form-label" style="width: 150px;">
+                      {{ field.label }}
+                    </label>
+                    {{ field }}
+                  </div>
+                </div>
+    
+                {% if field.errors %}
+                  <div class="row justify-content-center align-items-center">
+                    <div class="text-danger text-center"> <!-- Agregamos la clase "text-center" -->
+                      {% for error in field.errors %}
+                        <span>{{ error }}<br></span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              
+              </div>
+            {% endfor %}
+
+            {% for field in user_form.visible_fields %}
+              <div class="form-group">
+                <div class="row justify-content-center align-items-center m-3">
+                  <div class="col-12 text-center">
+                    <label class="form-label" style="width: 150px;">
+                      {{ field.label }}
+                    </label>
+                    {{ field }}
+                  </div>
+                </div>
+    
+                {% if field.errors %}
+                  <div class="row justify-content-center align-items-center">
+                    <div class="text-danger text-center"> <!-- Agregamos la clase "text-center" -->
+                      {% for error in field.errors %}
+                        <span>{{ error }}<br></span>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              
+              </div>
+            {% endfor %}
+            
+            {% if messages %}
+              <div class="alert alert-success text-center" role="alert">
+                {% for message in messages %}
+                  {% if message.tags == 'success' %}
+                    {{ message }}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+                        
+            <div style="text-align: center;">
+              <button type="submit" class="btn btn-primary" >Registrar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}

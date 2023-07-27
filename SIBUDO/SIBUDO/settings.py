@@ -42,11 +42,11 @@ INSTALLED_APPS = [
     'bootstrapform',
     'SIBUDO_app',
     'gestion_recursos',
-    'recursos',
-    'gestion_usuarios',
     'authentication',
     'sanciones_estudiante',
     'gestion_prestamos',
+    'gestion_usuarios',
+    'recursos',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'gestion_usuarios.middleware.UserProfileAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'SIBUDO.urls'
@@ -86,7 +87,7 @@ WSGI_APPLICATION = 'SIBUDO.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sibudo',
+        'NAME': 'sibudoDev',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
