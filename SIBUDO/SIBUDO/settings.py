@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'SIBUDO.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sibudoDev',
+        'NAME': 'sibudo',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
