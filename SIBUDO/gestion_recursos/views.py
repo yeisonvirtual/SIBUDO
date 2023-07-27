@@ -2,8 +2,11 @@ from django.shortcuts import render, redirect
 from gestion_recursos.forms import formulario_libro, formulario_trabajo
 from .models import libro, cantidad_libro, trabajo, cantidad_trabajo
 
+from authentication.decorators import group_required
+
 # Create your views here.
 
+@group_required(['Director','Bibliotecario'])
 def gestion_libros(request):
     user_name = request.user.username
 
@@ -80,6 +83,7 @@ def gestion_libros(request):
     return render(request, "gestion_recursos/gestion_libros.html", {'nombre':user_name})
 
 
+@group_required(['Director','Bibliotecario'])
 def agregar_libro(request):
 
     form = formulario_libro()
@@ -121,6 +125,7 @@ def agregar_libro(request):
     return render(request, "gestion_recursos/agregar_libro.html", {'form': form})
 
 
+@group_required(['Director','Bibliotecario'])
 def eliminar_libro(request, libro_id):
 
     # se busca el libro por la id
@@ -131,6 +136,7 @@ def eliminar_libro(request, libro_id):
     return redirect('Gestion libros')
 
 
+@group_required(['Director','Bibliotecario'])
 def editar_libro(request, libro_id):
 
     # se busca el libro por la id
@@ -175,6 +181,7 @@ def editar_libro(request, libro_id):
     return render(request, "gestion_recursos/agregar_libro.html", {'form': form})
 
 
+@group_required(['Director','Bibliotecario'])
 def gestion_trabajos(request):
     user_name = request.user.username
 
@@ -250,6 +257,7 @@ def gestion_trabajos(request):
     return render(request, "gestion_recursos/gestion_trabajos.html", {'nombre':user_name})
 
 
+@group_required(['Director','Bibliotecario'])
 def agregar_trabajo(request):
     
     form = formulario_trabajo()
@@ -291,6 +299,7 @@ def agregar_trabajo(request):
     return render(request, "gestion_recursos/agregar_trabajo.html", {'form': form})
 
 
+@group_required(['Director','Bibliotecario'])
 def eliminar_trabajo(request, trabajo_id):
 
     # se busca el trabajo por la id
@@ -301,6 +310,7 @@ def eliminar_trabajo(request, trabajo_id):
     return redirect('Gestion trabajos')
 
 
+@group_required(['Director','Bibliotecario'])
 def editar_trabajo(request, trabajo_id):
 
     # se busca el libro por la id
