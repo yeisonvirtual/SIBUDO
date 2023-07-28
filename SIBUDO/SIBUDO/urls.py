@@ -16,6 +16,7 @@ urlpatterns = [
     path('authentication/', include('authentication.urls')),
     path('gestion_recursos/', include('gestion_recursos.urls')),
     path('recursos/', include('recursos.urls')),
+    path('graficas/', include('grafica.urls')),
 ]
 
 handler404 = error_404
