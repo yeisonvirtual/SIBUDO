@@ -477,17 +477,22 @@
           <div id="barChart" style="min-height: 400px;" class="echart"></div>
 
           <script>
+            const nLibrosData = {{ n_libros }};
+            const nTrabajosData = {{ n_trabajos }};
+            const nPrestoadosData = {{ n_prestados }};
+            const nDisponiblesData = {{ n_disponible }};
+
             document.addEventListener("DOMContentLoaded", () => {
               echarts.init(document.querySelector("#barChart")).setOption({
                 xAxis: {
                   type: 'category',
-                  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                  data: ['Libros', 'Trabajos', 'Prestados', 'Disponibles']
                 },
                 yAxis: {
                   type: 'value'
                 },
                 series: [{
-                  data: [120, 200, 150, 80, 70, 110, 130],
+                  data: [nLibrosData, nTrabajosData, nPrestoadosData, nDisponiblesData],
                   type: 'bar'
                 }]
               });
