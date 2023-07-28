@@ -47,94 +47,24 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0102</td>
-                                        <td>Activa</td>
-                                        <td>2016-05-25</td>
-                                        <td>2016-05-25</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Reposición de libro</td>
-                                        <td>Préstamo: 0134</td>
-                                        <td>Inactiva</td>
-                                        <td>2014-12-05</td>
-                                        <td>2014-12-05</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0405</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-08-12</td>
-                                        <td>2011-08-12</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">4</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0114</td>
-                                        <td>Inactiva</td>
-                                        <td>2012-06-11</td>
-                                        <td>2012-06-11</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">5</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0502</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-04-19</td>
-                                        <td>2011-04-19</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">6</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0502</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-04-19</td>
-                                        <td>2011-04-19</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">7</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0502</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-04-19</td>
-                                        <td>2011-04-19</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">8</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0502</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-04-19</td>
-                                        <td>2011-04-19</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">9</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0502</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-04-19</td>
-                                        <td>2011-04-19</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">10</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0502</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-04-19</td>
-                                        <td>2011-04-19</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">11</th>
-                                        <td>Suspención</td>
-                                        <td>Préstamo: 0502</td>
-                                        <td>Inactiva</td>
-                                        <td>2011-04-19</td>
-                                        <td>2011-04-19</td>
-                                    </tr>
+                                    {% for sancion in list_sanciones %}
+                                        {% if forloop.counter0 != 0 %}
+                                            <tr>
+                                                <th scope="row">{{forloop.counter0}}</th>
+                                                <td>Suspención</td>
+                                                <td>Préstamo: {{sancion.id}}</td>
+                                                <td>
+                                                    {% if sancion.estado == 1 %}
+                                                        <div class="badge bg-danger">Activa</div>
+                                                    {% else %}
+                                                        <div class="badge bg-warning">Inactiva</div>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{sancion.fecha_aplicacion}}</td>
+                                                <td>{{sancion.fecha_culminacion}}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
