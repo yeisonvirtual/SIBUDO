@@ -118,7 +118,7 @@ def crear_libros_trabajos(num_elementos):
 # copiar este codigo dentro de la consola:
 
 
-# from SIBUDO_app.seeds.seed import crear_director, crear_personas, crear_libros_trabajos, crear_prestamos
+# from SIBUDO_app.seeds.seed import crear_director, crear_personas, crear_libros_trabajos
 # crear_director()
 # crear_personas(20)
 # crear_libros_trabajos(20)

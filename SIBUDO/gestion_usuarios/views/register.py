@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
-from rest_framework.decorators import api_view
 from gestion_usuarios.forms import User_form, Persona_Form 
 from authentication.decorators import group_required
 from django.contrib.auth.decorators import login_required
