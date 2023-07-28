@@ -24,9 +24,11 @@ def gestion_libros(request):
         search = request.POST.get('search')
 
         # si el campo de busqueda tiene contenido
-        if search and row!=0:
+        if search and row != '0':
 
-            if row == '1'  and search.isdigit():
+            all_libros = None
+
+            if row == '1' and search.isdigit():
                 # filtra por id
                 all_libros = libro.objects.filter(id=search)
 
@@ -53,7 +55,7 @@ def gestion_libros(request):
                 for item in all_libros:
                     all_cantidad.append(cantidad_libro.objects.get(libro_id=item.id))
 
-            elif row == '4':
+            elif row == '4' and search.isdigit():
                 # filtra por anio
                 all_libros = libro.objects.filter(anio__icontains=search)
 
@@ -62,7 +64,7 @@ def gestion_libros(request):
                 for item in all_libros:
                     all_cantidad.append(cantidad_libro.objects.get(libro_id=item.id))
 
-            else:
+            elif row == '5':
                 # filtra por isbn
                 all_libros = libro.objects.filter(isbn__icontains=search)
 
@@ -70,10 +72,15 @@ def gestion_libros(request):
                 all_cantidad = []
                 for item in all_libros:
                     all_cantidad.append(cantidad_libro.objects.get(libro_id=item.id))
-                
+
+
+            if all_libros != None:
+                # retorna los libros filtrados
+                return render(request, "gestion_recursos/gestion_libros.html", {'nombre':user_name, 'libros': all_libros, 'cantidades': all_cantidad})
+            else:
+                # si hubo algun error no muestra la tabla
+                return render(request, "gestion_recursos/gestion_libros.html", {'nombre':user_name})
             
-            # retorna los libros filtrados
-            return render(request, "gestion_recursos/gestion_libros.html", {'nombre':user_name, 'libros': all_libros, 'cantidades': all_cantidad})
         
         # si el campo de busqueda esta vacio
         else:
@@ -218,10 +225,11 @@ def gestion_trabajos(request):
         search = request.POST.get('search')
 
         # si el campo de busqueda tiene contenido
-        if search and row!=0:
+        if search and row != '0':
+
+            all_trabajos = None
 
             if row == '1' and search.isdigit():
-     
                 # filtra por id
                 all_trabajos = trabajo.objects.filter(id=search)
 
@@ -230,7 +238,7 @@ def gestion_trabajos(request):
                 for item in all_trabajos:
                     all_cantidad.append(cantidad_trabajo.objects.get(trabajo_id=item.id))
 
-            if row == '2':
+            elif row == '2':
                 # filtra por titulo
                 all_trabajos = trabajo.objects.filter(titulo__icontains=search)
 
@@ -239,7 +247,7 @@ def gestion_trabajos(request):
                 for item in all_trabajos:
                     all_cantidad.append(cantidad_trabajo.objects.get(trabajo_id=item.id))
 
-            if row == '3':
+            elif row == '3':
                 # filtra por autor
                 all_trabajos = trabajo.objects.filter(autor__icontains=search)
 
@@ -248,8 +256,8 @@ def gestion_trabajos(request):
                 for item in all_trabajos:
                     all_cantidad.append(cantidad_trabajo.objects.get(trabajo_id=item.id))
 
-            if row == '4':
-                # filtra por autor
+            elif row == '4':
+                # filtra por palabras clave
                 all_trabajos = trabajo.objects.filter(palabras_clave__icontains=search)
 
                 # recorre todos los filtros y obtiene la cantidad de cada trabajo
@@ -257,17 +265,23 @@ def gestion_trabajos(request):
                 for item in all_trabajos:
                     all_cantidad.append(cantidad_trabajo.objects.get(trabajo_id=item.id))
 
-            else:
-                # filtra por autor
+            elif row == '5':
+                # filtra por fecha
                 all_trabajos = trabajo.objects.filter(fecha__icontains=search)
 
                 # recorre todos los filtros y obtiene la cantidad de cada trabajo
                 all_cantidad = []
                 for item in all_trabajos:
                     all_cantidad.append(cantidad_trabajo.objects.get(trabajo_id=item.id))
-                
-            # retorna los libros filtrados
-            return render(request, "gestion_recursos/gestion_trabajos.html", {'nombre':user_name, 'trabajos': all_trabajos, 'cantidades': all_cantidad})
+            
+
+            if all_trabajos != None:
+                # retorna los libros filtrados
+                return render(request, "gestion_recursos/gestion_trabajos.html", {'nombre':user_name, 'trabajos': all_trabajos, 'cantidades': all_cantidad})
+            else:
+                # si hubo algun error no muestra la tabla
+                return render(request, "gestion_recursos/gestion_trabajos.html", {'nombre':user_name})
+            
         
         # si el campo de busqueda esta vacio
         else:
