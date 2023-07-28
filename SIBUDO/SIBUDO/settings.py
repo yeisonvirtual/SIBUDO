@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'gestion_prestamos',
     'gestion_usuarios',
     'recursos',
+    'grafica',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,166 @@
+{% extends "SIBUDO_app/base.html" %}
+
+{% load static %}
+
+{% block title %} <title> Home </title> {% endblock %}
+
+{% block content %}
+    
+<main id="main" class="main">
+  <div class="row">
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Pie Chart</h5>
+  
+          <!-- Pie Chart -->
+          <div id="pieChart"></div>
+  
+          <script>
+            const seriesData = {{ Pie_Chart_series|safe }};
+            const labelsData = {{ Pie_Chart_labels|safe }};
+
+            document.addEventListener("DOMContentLoaded", () => {
+              new ApexCharts(document.querySelector("#pieChart"), {
+                series: seriesData,
+                chart: {
+                  height: 350,
+                  type: 'pie',
+                  toolbar: {
+                    show: true
+                  }
+                },
+                labels: labelsData
+              }).render();
+            });
+          </script>
+          <!-- End Pie Chart -->
+  
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Bar CHart</h5>
+
+          <!-- Bar Chart -->
+          <canvas id="barChart" style="max-height: 400px;"></canvas>
+          <script>
+
+            const nPrestoadosData = {{ n_prestados }};
+            const nDisponiblesData = {{ n_disponible }};
+
+            document.addEventListener("DOMContentLoaded", () => {
+              new Chart(document.querySelector('#barChart'), {
+                type: 'bar',
+                data: {
+                  labels: ['Prestados', 'Disponibles'],
+                  datasets: [{
+                    label: 'Libros Prestados',
+                    data: [nPrestoadosData, nDisponiblesData],
+                    backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                    ],
+                    borderColor: [
+                      'rgb(255, 99, 132)',
+                      'rgb(75, 192, 192)',
+                    ],
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                }
+              });
+            });
+          </script>
+          <!-- End Bar CHart -->
+
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Bar Chart</h5>
+
+          <!-- Bar Chart -->
+          <div id="barChart2" style="min-height: 400px;" class="echart"></div>
+
+          <script>
+            const nLibrosData = {{ n_libros }};
+            const nTrabajosData = {{ n_trabajos }};
+
+            document.addEventListener("DOMContentLoaded", () => {
+              echarts.init(document.querySelector("#barChart2")).setOption({
+                xAxis: {
+                  type: 'category',
+                  data: ['Libros', 'Trabajos']
+                },
+                yAxis: {
+                  type: 'value'
+                },
+                series: [{
+                  data: [nLibrosData, nTrabajosData],
+                  type: 'bar',
+                  itemStyle: {
+                    color: function(params) {
+                        // Aquí puedes definir los colores que desees para cada barra
+                        const colors = ['#FFCE56', '#4BC0C0']; // Colores de ejemplo
+                        return colors[params.dataIndex];
+                    }
+                }
+                }]
+              });
+            });
+          </script>
+          <!-- End Bar Chart -->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Donut Chart</h5>
+
+          <!-- Donut Chart -->
+          <div id="donutChart"></div>
+
+          <script>
+            const nGenerosData = {{ n_generos|safe }};
+            document.addEventListener("DOMContentLoaded", () => {
+              new ApexCharts(document.querySelector("#donutChart"), {
+                series: [nGenerosData.Masculino, nGenerosData.Femenina, nGenerosData.Otro],
+                chart: {
+                  height: 350,
+                  type: 'donut',
+                  toolbar: {
+                    show: true
+                  }
+                },
+                labels: ['Masculino', 'Femenina', 'No definido'],
+              }).render();
+            });
+          </script>
+          <!-- End Donut Chart -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+</main><!-- End #main -->
+
+{% endblock %}

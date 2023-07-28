@@ -395,7 +395,7 @@ def editar_prestamo(request, id_prestamo):
 @login_required(login_url='/authentication/error_404/')
 @group_required(['Director', 'Bibliotecario'])
 def buscar_prestamo(request):
-    prestamos_a_nd = Prestamo.objects.filter(Q(estado_prestamo=1) | Q(estado_prestamo=2) | Q(estado_prestamo=3))
+    prestamos_a_nd = Prestamo.objects.filter(Q(estado_prestamo=1) | Q(estado_prestamo=3))
     list_estud = [None]
     list_tipo_p = [None]
     for prestamo in prestamos_a_nd:
