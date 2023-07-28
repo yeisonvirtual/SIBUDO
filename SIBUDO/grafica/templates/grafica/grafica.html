@@ -440,34 +440,33 @@
     <div class="col-lg-6">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Radar Chart</h5>
+          <h5 class="card-title">Donut Chart</h5>
 
-          <!-- Radar Chart -->
-          <div id="radarChart"></div>
+          <!-- Donut Chart -->
+          <div id="donutChart"></div>
 
           <script>
+            const nGenerosData = {{ n_generos|safe }};
             document.addEventListener("DOMContentLoaded", () => {
-              new ApexCharts(document.querySelector("#radarChart"), {
-                series: [{
-                  name: 'Series 1',
-                  data: [80, 50, 30, 40, 100, 20],
-                }],
+              new ApexCharts(document.querySelector("#donutChart"), {
+                series: [nGenerosData.Masculino, nGenerosData.Femenina, nGenerosData.Otro],
                 chart: {
                   height: 350,
-                  type: 'radar',
+                  type: 'donut',
+                  toolbar: {
+                    show: true
+                  }
                 },
-                xaxis: {
-                  categories: ['January', 'February', 'March', 'April', 'May', 'June']
-                }
+                labels: ['Masculino', 'Femenina', 'No definido'],
               }).render();
             });
           </script>
-          <!-- End Radar Chart -->
+          <!-- End Donut Chart -->
 
         </div>
       </div>
     </div>
-
+    
     <div class="col-lg-6">
       <div class="card">
         <div class="card-body">

@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.models import Group
 from gestion_recursos.models import cantidad_libro, cantidad_trabajo
 from gestion_prestamos.models import Recurso_Disponible
-from django.db.models import Sum
+from gestion_usuarios.models import persona
+from django.db.models import Sum, Count
 
 def grafica(request):
     rol_aviable = ['Estudiante', 'Bibliotecario', 'Invitado']
@@ -20,6 +21,8 @@ def grafica(request):
     n_disponibles = obtener_cantidad_total_recursos_disponibles()
     n_prestados = (n_libros + n_trabajos) - n_disponibles
 
+    n_generos = obtener_sumatoria_genero()
+
     context = {
         'Pie_Chart_series': series,
         'Pie_Chart_labels': labels,
@@ -27,6 +30,7 @@ def grafica(request):
         'n_trabajos': n_trabajos,
         'n_disponible': n_disponibles,
         'n_prestados': n_prestados,
+        'n_generos': n_generos,
     }
 
     return render(request, 'grafica/grafica.html', context)
@@ -74,4 +78,24 @@ def obtener_cantidad_total_recursos_disponibles():
         cantidad_total = 0
 
     return cantidad_total
+
+def obtener_sumatoria_genero():
+    try:
+        sumatoria_masculino = persona.objects.filter(genero='M').aggregate(total_masculino=Count('genero'))['total_masculino']
+        sumatoria_femenina = persona.objects.filter(genero='F').aggregate(total_femenina=Count('genero'))['total_femenina']
+        sumatoria_no_definido = persona.objects.filter(genero='O').aggregate(total_no_definido=Count('genero'))['total_no_definido']
+        
+        sumatoria_genero = {
+            'Masculino': sumatoria_masculino,
+            'Femenina': sumatoria_femenina,
+            'Otro': sumatoria_no_definido
+        }
+    except persona.DoesNotExist:
+        sumatoria_genero = {
+            'Masculino': 0,
+            'Femenina': 0,
+            'Otro': 0
+        }
+
+    return sumatoria_genero
 
